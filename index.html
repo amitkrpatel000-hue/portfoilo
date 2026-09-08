@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amit Kumar Patel | Portfolio</title>
+  
+  <meta name="theme-color" content="#0a0d14">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚗️</text></svg>">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- VanillaTilt for 3D Tilt Effect -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+  <!-- Canvas Confetti for Interactive Celebrations -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              purple: '#8b5cf6',
+              cyan: '#06b6d4',
+              dark: '#0a0d14',
+              card: 'rgba(255, 255, 255, 0.03)',
+              border: 'rgba(255, 255, 255, 0.08)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0a0d14;
+      color: #f1f5f9;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(139, 92, 246, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -10px rgba(139, 92, 246, 0.25);
+    }
+    .glow-bg {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* Anchor scrolling offset for fixed navbar */
+    section[id] {
+      scroll-margin-top: 6.5rem;
+    }
+    /* 3D Photo Card */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transform: perspective(1000px);
+    }
+    .tilt-card .tilt-inner {
+      transform-style: preserve-3d;
+    }
+    .tilt-card .floating-badge {
+      transform: translateZ(40px);
+      backface-visibility: hidden;
+    }
+    .tilt-card .photo-layer {
+      transform: translateZ(20px);
+    }
+    .tilt-card .js-tilt-glare {
+      border-radius: 1.5rem;
+    }
+    .photo-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(ellipse at center, rgba(139,92,246,0.2) 0%, transparent 70%);
+      border-radius: 2rem;
+      z-index: -1;
+      filter: blur(25px);
+      animation: photo-pulse 4s ease-in-out infinite alternate;
+    }
+    @keyframes photo-pulse {
+      from { opacity: 0.5; transform: scale(0.95); }
+      to   { opacity: 0.8; transform: scale(1.05); }
+    }
+    /* Active Nav link glowing state */
+    .nav-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 9999px;
+    }
+    /* Disable cursor spotlight on touch devices */
+    @media (hover: none) or (pointer: coarse) {
+      #cursor-glow {
+        display: none !important;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-pulse, .animate-ping, .photo-glow {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="relative min-h-screen">
+
+  <!-- Ambient Glow Effects -->
+  <div class="glow-bg w-96 h-96 bg-purple-600/15 top-10 left-1/4"></div>
+  <div class="glow-bg w-96 h-96 bg-cyan-500/10 top-96 right-1/4"></div>
+  <div class="glow-bg w-[32rem] h-[32rem] bg-indigo-600/10 bottom-40 left-1/3"></div>
+
+  <!-- Background Spotlight Div -->
+  <div id="cursor-glow" class="pointer-events-none fixed inset-0 z-30 transition duration-300"></div>
+
+  <!-- Floating Navbar -->
+  <header class="fixed top-5 inset-x-0 z-50 flex justify-center px-4">
+    <nav class="glass-card rounded-full px-5 sm:px-6 py-3 flex items-center justify-between w-full max-w-5xl shadow-2xl shadow-black/50">
+      <a href="#hero" class="text-base font-bold tracking-tight bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent shrink-0">
+        Amit Kumar Patel<span class="text-cyan-400">.</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <div class="hidden md:flex items-center space-x-1 text-sm font-medium">
+        <a href="#about" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">About</a>
+        <a href="#academics" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Academics</a>
+        <a href="#skills" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Skills</a>
+        <a href="#projects" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Projects</a>
+        <a href="#experience" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Experience</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" title="GitHub Profile">
+          <i data-lucide="github" class="w-4 h-4"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-cyan-400 transition-colors" title="LinkedIn Profile">
+          <i data-lucide="linkedin" class="w-4 h-4"></i>
+        </a>
+        <a href="#contact" class="hidden sm:inline-flex px-4 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white transition-all shadow-md shadow-purple-900/30">
+          Contact
+        </a>
+        <!-- Mobile Menu Hamburger Button -->
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle Navigation Menu" class="md:hidden p-1.5 text-neutral-400 hover:text-white focus:outline-none transition-colors">
+          <i data-lucide="menu" id="menu-icon-open" class="w-5 h-5"></i>
+          <i data-lucide="x" id="menu-icon-close" class="w-5 h-5 hidden"></i>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation Dropdown -->
+  <div id="mobile-menu" class="hidden fixed top-20 inset-x-4 z-40 glass-card rounded-2xl p-5 shadow-2xl border border-white/10 flex flex-col space-y-2 max-w-md mx-auto">
+    <a href="#about" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">About</a>
+    <a href="#academics" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Academics</a>
+    <a href="#skills" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Skills</a>
+    <a href="#projects" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Projects</a>
+    <a href="#experience" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Experience</a>
+    <a href="#contact" class="mobile-nav-link text-center text-xs font-semibold uppercase tracking-wider py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium shadow-md shadow-purple-900/30 mt-2">Contact Me</a>
+  </div>
+
+  <main class="relative z-10 max-w-5xl mx-auto px-5 pt-36 pb-20 space-y-24">
+
+    <!-- Hero Section with 3D Photo Card -->
+    <section id="hero" class="pt-8 flex flex-col lg:flex-row items-center justify-between gap-12">
+      
+      <!-- Left Side: Intro Content -->
+      <div class="flex-1 text-center lg:text-left space-y-6">
+        <!-- Status Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300 text-xs sm:text-sm font-semibold shadow-lg shadow-cyan-950/40">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          Chemical Engineer | B.Tech Undergrad (2025–2029) at MMMUT Gorakhpur
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight max-w-3xl">
+          Chemical Engineer <br>
+          <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+            B.Tech Undergrad (2025–2029)
+          </span> <br>
+          <span class="text-2xl sm:text-3xl lg:text-4xl text-neutral-300 font-bold">at MMMUT Gorakhpur</span>
+        </h1>
+
+        <!-- Bio Summary -->
+        <p class="text-neutral-400 text-base sm:text-lg max-w-2xl leading-relaxed">
+          Chemical Engineering undergraduate at Madan Mohan Malaviya University of Technology, Gorakhpur. Merging chemical engineering principles with smart systems, C & Python computational modeling, and assistive technology architecture.
+        </p>
+
+        <!-- Typewriter Effect -->
+        <div class="text-base sm:text-lg">
+          <span class="text-neutral-400">Specializing in </span>
+          <span id="typewriter" class="text-cyan-400 font-mono font-bold border-r-2 border-cyan-400 pr-1 animate-pulse"></span>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+          <a href="#projects" class="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold flex items-center gap-2 transition-all shadow-lg shadow-purple-600/30">
+            View Projects <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-xl glass-card hover:bg-white/10 text-neutral-200 text-sm font-semibold flex items-center gap-2 transition-all">
+            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-xl glass-card hover:bg-white/10 text-neutral-200 text-sm font-semibold flex items-center gap-2 transition-all">
+            <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Side: 3D Tilt Photo Card -->
+      <div class="flex-shrink-0 relative group">
+        <!-- Ambient 3D Glow behind Photo -->
+        <div class="absolute -inset-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur-2xl opacity-30 group-hover:opacity-60 transition duration-500"></div>
+
+        <!-- 3D Card Element -->
+        <div 
+          id="tilt-card"
+          class="tilt-card relative w-72 sm:w-80 h-96 sm:h-[420px] rounded-3xl p-3 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 shadow-2xl shadow-purple-950/50 overflow-hidden cursor-pointer"
+          style="transform-style: preserve-3d;"
+        >
+          <!-- Image Container -->
+          <div class="w-full h-full rounded-2xl overflow-hidden relative">
+            <img 
+              src="amit pic.jpg" 
+              alt="Amit Kumar Patel" 
+              class="w-full h-full object-cover object-top filter contrast-[1.05]"
+            />
+            <!-- Inner Vignette Gradient -->
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0d14]/90 via-transparent to-transparent"></div>
+          </div>
+
+          <!-- 3D Pop-out Bottom Badge (translateZ creates real depth) -->
+          <div 
+            class="floating-badge absolute bottom-6 inset-x-6 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-between"
+            style="transform: translateZ(40px);"
+          >
+            <div>
+              <h3 class="text-sm font-bold text-white leading-tight">Amit Kumar Patel</h3>
+              <p class="text-[11px] text-cyan-400 font-mono">Chemical Engg • MMMUT '29</p>
+            </div>
+            <div class="w-8 h-8 rounded-lg bg-cyan-600/20 text-cyan-300 flex items-center justify-center">
+              <i data-lucide="flask-conical" class="w-4 h-4"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Bento Overview & Achievements -->
+    <section id="about" class="space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-purple-400">Profile</h2>
+        <p class="text-2xl font-bold">Key Highlights</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Bio Card -->
+        <div class="glass-card rounded-2xl p-6 md:col-span-2 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="w-10 h-10 rounded-lg bg-purple-600/20 text-purple-400 flex items-center justify-center">
+              <i data-lucide="user" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-lg font-semibold">About Amit</h3>
+            <p class="text-neutral-400 text-sm leading-relaxed">
+              Undergraduate at Madan Mohan Malaviya University of Technology, Gorakhpur. Beyond chemical engineering principles, I actively explore assistive hardware architectures, programming in C, data science concepts, and interactive media.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-4 text-xs text-neutral-400 pt-3 border-t border-white/5">
+            <span class="flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-purple-400"></i> Varanasi & Gorakhpur, UP</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="id-card" class="w-3.5 h-3.5 text-cyan-400"></i> Student ID: 2025061007</span>
+          </div>
+        </div>
+
+        <!-- Ideathon Achievement Card -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between border-purple-500/20">
+          <div class="w-10 h-10 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center mb-2">
+            <i data-lucide="trophy" class="w-5 h-5"></i>
+          </div>
+          <div class="space-y-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-amber-400">Achievement</span>
+            <h4 class="text-xl font-bold text-white">2nd Place Winner</h4>
+            <p class="text-xs text-neutral-400">Campus Ideathon Competition (Jan 2026 – Mar 2026) for Smart Cane Innovation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dedicated Chemical Engineering Profile Card -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 border border-cyan-500/20 relative overflow-hidden space-y-5">
+        <!-- Ambient glow corner -->
+        <div class="absolute top-0 right-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/5 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
+              <i data-lucide="flask-conical" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white">Chemical Engineering Discipline</h3>
+              <p class="text-xs text-neutral-400">Madan Mohan Malaviya University of Technology, Gorakhpur</p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-cyan-300 font-mono text-xs">
+            Batch: 2025 — 2029
+          </span>
+        </div>
+
+        <p class="text-neutral-300 text-sm leading-relaxed">
+          Bridging traditional chemical engineering fundamentals—such as material & energy balances, thermodynamics, and transport phenomena—with modern computational modeling and data-driven analysis.
+        </p>
+
+        <!-- Key Competencies in Chemical Engg -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-cyan-300">
+              <i data-lucide="atom" class="w-3.5 h-3.5"></i> Core Fundamentals
+            </div>
+            <p class="text-[11px] text-neutral-400">Chemical process calculations, reaction principles & data science foundations.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-purple-300">
+              <i data-lucide="binary" class="w-3.5 h-3.5"></i> Computational Modeling
+            </div>
+            <p class="text-[11px] text-neutral-400">Applying C and Python for numerical methods, data processing, and logic design.</p>
+          </div>
+
+          <div class="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+              <i data-lucide="users" class="w-3.5 h-3.5"></i> Leadership & Chapter
+            </div>
+            <p class="text-[11px] text-neutral-400">Departmental Representative & Member at IIChE Student Chapter, MMMUT.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Academic Details Table/Cards -->
+    <section id="academics" class="space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Education</h2>
+        <p class="text-2xl font-bold">Academic Background</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- B.Tech -->
+        <div class="glass-card rounded-2xl p-6 space-y-3 border-purple-500/30">
+          <span class="px-2.5 py-1 rounded bg-purple-500/15 text-purple-300 text-xs font-mono">2025 — 2029</span>
+          <h3 class="text-base font-bold text-white">B.Tech (Chemical Engineering)</h3>
+          <p class="text-xs text-neutral-400">Madan Mohan Malaviya University of Technology, Gorakhpur</p>
+          <div class="pt-2 border-t border-white/5 flex justify-between items-center text-xs">
+            <span class="text-neutral-400">Performance</span>
+            <span class="text-emerald-400 font-bold">7.8 / 10.0 CGPA (1st Sem)</span>
+          </div>
+        </div>
+
+        <!-- Class XII -->
+        <div class="glass-card rounded-2xl p-6 space-y-3">
+          <span class="px-2.5 py-1 rounded bg-cyan-500/15 text-cyan-300 text-xs font-mono">2024</span>
+          <h3 class="text-base font-bold text-white">Class XII (UP Board)</h3>
+          <p class="text-xs text-neutral-400">National Inter College, Pindra, Varanasi</p>
+          <div class="pt-2 border-t border-white/5 flex justify-between items-center text-xs">
+            <span class="text-neutral-400">Score</span>
+            <span class="text-cyan-400 font-bold">91.8%</span>
+          </div>
+        </div>
+
+        <!-- Class X -->
+        <div class="glass-card rounded-2xl p-6 space-y-3">
+          <span class="px-2.5 py-1 rounded bg-indigo-500/15 text-indigo-300 text-xs font-mono">2021</span>
+          <h3 class="text-base font-bold text-white">Class X (UP Board)</h3>
+          <p class="text-xs text-neutral-400">National Inter College, Pindra, Varanasi</p>
+          <div class="pt-2 border-t border-white/5 flex justify-between items-center text-xs">
+            <span class="text-neutral-400">Score</span>
+            <span class="text-indigo-400 font-bold">86.6%</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills & Interests -->
+    <section id="skills" class="space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-indigo-400">Expertise</h2>
+        <p class="text-2xl font-bold">Skills & Personal Interests</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Technical Skills -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex items-center gap-2 text-sm font-semibold text-neutral-200">
+            <i data-lucide="code" class="w-4 h-4 text-purple-400"></i> Technical Skills
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">C Language</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Canva</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">MS PowerPoint</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Image Tools</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Video Editing</span>
+          </div>
+        </div>
+
+        <!-- Curriculum & Engineering -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex items-center gap-2 text-sm font-semibold text-neutral-200">
+            <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Curriculum
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Chemical Engg Principles</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Data Science Foundations</span>
+          </div>
+        </div>
+
+        <!-- Interests & Passions -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex items-center gap-2 text-sm font-semibold text-neutral-200">
+            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i> Creative & Sports
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Cricket</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Cricket Game Dev</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Singing</span>
+            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Shayari Writing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flagship Project: Team Trinetra Showcase -->
+    <section id="projects" class="space-y-8">
+      <div id="trinetra-project" class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+          <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-400"></i>
+          2nd Place Winner • Campus Ideathon Competition (2026)
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+          Project <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">TRINETRA</span>
+        </h2>
+        <p class="text-neutral-400 text-sm max-w-xl mx-auto">
+          AI-Driven Multi-Sensor Smart Cane for Visually Impaired Mobility (Dec 2025 – Mar 2026)
+        </p>
+      </div>
+
+      <!-- Main Showcase Bento Grid -->
+      <div class="glass-card rounded-3xl p-6 sm:p-10 border border-purple-500/30 relative overflow-hidden">
+        <!-- Background Gradient Spot -->
+        <div class="absolute -top-24 -right-24 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left: Project Narrative & Core Specs (7 Cols) -->
+          <div class="lg:col-span-7 space-y-6">
+            <div class="space-y-3">
+              <div class="flex items-center gap-3">
+                <span class="px-3 py-1 rounded-md bg-purple-500/20 text-purple-300 text-xs font-mono font-semibold uppercase tracking-wider">
+                  Flagship Innovation
+                </span>
+                <span class="text-xs text-neutral-400 font-mono">Team Trinetra</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold text-white">
+                Assistive Navigation with Intelligent Sensor Fusion
+              </h3>
+              <p class="text-neutral-300 text-sm sm:text-base leading-relaxed">
+                Designed and engineered the core system architecture integrating multi-directional sensors with intelligent processing to help visually impaired individuals detect spatial obstacles in real time with high reliability.
+              </p>
+            </div>
+
+            <!-- Interactive Mode Toggles -->
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="setTrinetraMode('detection')" id="mode-btn-detection" class="trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-purple-600 text-white shadow-md shadow-purple-600/30">
+                <i data-lucide="radio" class="w-3.5 h-3.5"></i> Obstacle Detection
+              </button>
+              <button type="button" onclick="setTrinetraMode('processing')" id="mode-btn-processing" class="trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10">
+                <i data-lucide="cpu" class="w-3.5 h-3.5"></i> AI Edge Processing
+              </button>
+              <button type="button" onclick="setTrinetraMode('haptic')" id="mode-btn-haptic" class="trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10">
+                <i data-lucide="vibrate" class="w-3.5 h-3.5"></i> Haptic Alert
+              </button>
+            </div>
+
+            <!-- Architecture Breakdown Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div id="card-detection" onclick="setTrinetraMode('detection')" class="trinetra-spec-card p-3.5 rounded-xl bg-white/[0.04] border border-cyan-400/40 cursor-pointer transition-all space-y-1.5">
+                <div class="text-cyan-400"><i data-lucide="radio" class="w-5 h-5"></i></div>
+                <h4 class="text-xs font-bold text-white">Multi-Sensor Array</h4>
+                <p class="text-[11px] text-neutral-400 leading-snug">Ultrasonic & spatial depth sensing covering 180° front elevation.</p>
+              </div>
+
+              <div id="card-processing" onclick="setTrinetraMode('processing')" class="trinetra-spec-card p-3.5 rounded-xl bg-white/[0.04] border border-white/5 hover:border-purple-400/30 cursor-pointer transition-all space-y-1.5">
+                <div class="text-purple-400"><i data-lucide="cpu" class="w-5 h-5"></i></div>
+                <h4 class="text-xs font-bold text-white">System Architecture</h4>
+                <p class="text-[11px] text-neutral-400 leading-snug">Low-latency hardware-software integration for edge processing.</p>
+              </div>
+
+              <div id="card-haptic" onclick="setTrinetraMode('haptic')" class="trinetra-spec-card p-3.5 rounded-xl bg-white/[0.04] border border-white/5 hover:border-emerald-400/30 cursor-pointer transition-all space-y-1.5">
+                <div class="text-emerald-400"><i data-lucide="vibrate" class="w-5 h-5"></i></div>
+                <h4 class="text-xs font-bold text-white">Haptic Feedback</h4>
+                <p class="text-[11px] text-neutral-400 leading-snug">Vibrational alerts & sound cues indicating obstacle proximity.</p>
+              </div>
+            </div>
+
+            <!-- Dynamic Mode Description Bar -->
+            <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-500/20 text-xs text-neutral-300 flex items-center gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-purple-400 shrink-0"></i>
+              <span id="trinetra-status-text">Scanning 180° front elevation: detecting ground-level drop-offs, knee height hurdles, and head-level obstacles.</span>
+            </div>
+
+            <!-- Tech Stack Pills -->
+            <div class="flex flex-wrap gap-2 pt-2 border-t border-white/5">
+              <span class="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20 font-mono">Assistive Robotics</span>
+              <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs border border-cyan-500/20 font-mono">Sensor Integration</span>
+              <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 text-xs border border-indigo-500/20 font-mono">Hardware Architecture</span>
+              <span class="px-2.5 py-1 rounded-lg bg-white/5 text-neutral-300 text-xs border border-white/10 font-mono">C Programming</span>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Radar & Sonar Visualizer (5 Cols) -->
+          <div class="lg:col-span-5 flex flex-col items-center justify-center">
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full border border-purple-500/20 bg-black/40 flex items-center justify-center shadow-inner shadow-purple-950/40">
+              
+              <!-- Concentric Radar Rings -->
+              <div class="absolute inset-4 rounded-full border border-white/10"></div>
+              <div class="absolute inset-12 rounded-full border border-cyan-500/20"></div>
+              <div class="absolute inset-20 rounded-full border border-purple-500/30"></div>
+
+              <!-- Pulsing Waves -->
+              <div id="radar-wave" class="absolute inset-0 rounded-full border border-purple-500/40 animate-ping opacity-25"></div>
+
+              <!-- Crosshairs -->
+              <div class="absolute inset-x-0 top-1/2 h-[1px] bg-white/10"></div>
+              <div class="absolute inset-y-0 left-1/2 w-[1px] bg-white/10"></div>
+
+              <!-- Center Node: Smart Cane Core -->
+              <div id="radar-core" class="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-cyan-500 p-0.5 shadow-lg shadow-purple-600/50 flex items-center justify-center transition-all">
+                <div class="w-full h-full bg-[#0a0d14] rounded-2xl flex flex-col items-center justify-center text-center p-1">
+                  <i data-lucide="eye" class="w-5 h-5 text-cyan-400 mb-0.5"></i>
+                  <span class="text-[9px] font-bold tracking-widest text-white uppercase">TRINETRA</span>
+                </div>
+              </div>
+
+              <!-- Blip 1: Simulated Detected Obstacle -->
+              <div id="blip-1" class="absolute top-12 right-16 flex items-center gap-1.5 animate-pulse transition-all">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400"></span>
+                <span id="blip-1-text" class="text-[10px] font-mono text-cyan-300 bg-black/70 px-1.5 py-0.5 rounded border border-cyan-400/30">0.8m Alert</span>
+              </div>
+
+              <!-- Blip 2: Ground Elevation Drop -->
+              <div id="blip-2" class="absolute bottom-12 left-12 flex items-center gap-1.5 transition-all">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping shadow-md shadow-purple-400"></span>
+                <span id="blip-2-text" class="text-[10px] font-mono text-purple-300 bg-black/70 px-1.5 py-0.5 rounded border border-purple-400/30">Depth Sensor</span>
+              </div>
+            </div>
+
+            <span id="radar-status-caption" class="mt-4 text-[11px] font-mono text-neutral-400 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active Sensor Fusion Concept Simulation
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Positions of Responsibility -->
+    <section id="experience" class="space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Experience & Service</h2>
+        <p class="text-2xl font-bold">Leadership & Volunteering</p>
+      </div>
+
+      <div class="max-w-2xl mx-auto border-l-2 border-white/10 pl-6 space-y-8 relative">
+        <!-- IIChE -->
+        <div class="relative group">
+          <span class="absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full bg-purple-500 border-4 border-[#0a0d14]"></span>
+          <p class="text-xs font-mono text-purple-400">April 2026 — Ongoing</p>
+          <h3 class="text-base font-bold text-white">Departmental Representative & Member</h3>
+          <p class="text-xs text-neutral-400">Indian Institute of Chemical Engineers (IIChE) Student Chapter</p>
+          <p class="text-sm text-neutral-300 mt-1">Representing student interests, organizing technical sessions, and coordinating departmental activities.</p>
+        </div>
+
+        <!-- Kutumb NGO -->
+        <div class="relative group">
+          <span class="absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full bg-cyan-400 border-4 border-[#0a0d14]"></span>
+          <p class="text-xs font-mono text-cyan-400">May 2026 — June 2026</p>
+          <h3 class="text-base font-bold text-white">Social Intern</h3>
+          <p class="text-xs text-neutral-400">Kutumb NGO</p>
+          <p class="text-sm text-neutral-300 mt-1">Focused on child development programs and active community welfare initiatives during the internship.</p>
+        </div>
+
+        <!-- NSS -->
+        <div class="relative group">
+          <span class="absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full bg-indigo-400 border-4 border-[#0a0d14]"></span>
+          <p class="text-xs font-mono text-indigo-400">October 2025 — March 2026</p>
+          <h3 class="text-base font-bold text-white">Volunteer</h3>
+          <p class="text-xs text-neutral-400">National Service Scheme (NSS), MMMUT Gorakhpur</p>
+          <p class="text-sm text-neutral-300 mt-1">Participated in campus social initiatives, donation drives, and environmental service campaigns.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Extracurricular Workshops -->
+    <section class="glass-card rounded-2xl p-6 max-w-3xl mx-auto space-y-4">
+      <div class="flex items-center gap-2 text-sm font-semibold text-white">
+        <i data-lucide="calendar" class="w-4 h-4 text-purple-400"></i> Extracurriculars & Workshops
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-neutral-300">
+        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+          <p class="font-semibold text-white">Workshops: "Resume X" & "QUAZAR"</p>
+          <p class="text-neutral-400 mt-0.5">Attended campus career & technical growth programs (Oct 2025).</p>
+        </div>
+        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
+          <p class="font-semibold text-white">Budget Quest 2026</p>
+          <p class="text-neutral-400 mt-0.5">Registered and participated in the national quiz competition.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto space-y-6">
+      <div class="w-12 h-12 rounded-full bg-purple-600/20 text-purple-400 flex items-center justify-center mx-auto">
+        <i data-lucide="mail" class="w-6 h-6"></i>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-3xl font-extrabold text-white">Let's Connect</h2>
+        <p class="text-neutral-400 text-sm">Open to technology discussions, project collaborations, and internships.</p>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <button id="copyBtn" onclick="copyEmail()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-semibold flex items-center gap-2 transition-all">
+          <i data-lucide="copy" class="w-4 h-4"></i> <span id="copyText">Copy: amitkrpatel000@gmail.com</span>
+        </button>
+
+        <a href="tel:+919451470020" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-semibold flex items-center gap-2 transition-all text-neutral-200">
+          <i data-lucide="phone" class="w-4 h-4"></i> +91 9451470020
+        </a>
+
+        <a href="mailto:amitkrpatel000@gmail.com" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-2 transition-all">
+          <i data-lucide="send" class="w-4 h-4"></i> Send Mail
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-8 px-5 text-neutral-500">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <p>&copy; 2026 Amit Kumar Patel &bull; Built with Tailwind CSS</p>
+      <a href="#hero" class="hover:text-white transition-colors flex items-center gap-1 group">
+        Back to top <i data-lucide="arrow-up" class="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Mobile Navigation Drawer Toggle with Open/Close Icon Switching
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('menu-icon-open');
+    const iconClose = document.getElementById('menu-icon-close');
+
+    function setMobileMenu(isOpen) {
+      if (!mobileMenu) return;
+      if (isOpen) {
+        mobileMenu.classList.remove('hidden');
+        if (iconOpen) iconOpen.classList.add('hidden');
+        if (iconClose) iconClose.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        if (iconOpen) iconOpen.classList.remove('hidden');
+        if (iconClose) iconClose.classList.add('hidden');
+      }
+    }
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const willOpen = mobileMenu.classList.contains('hidden');
+        setMobileMenu(willOpen);
+      });
+      // Close mobile menu when clicking outside or on a link
+      document.addEventListener('click', (e) => {
+        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          setMobileMenu(false);
+        }
+      });
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          setMobileMenu(false);
+        });
+      });
+    }
+
+    // Active Navigation Highlighter on Scroll
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      const scrollPosition = window.scrollY + 140;
+      sections.forEach(section => {
+        if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+          link.classList.remove('text-neutral-300');
+        } else {
+          link.classList.remove('active');
+          link.classList.add('text-neutral-300');
+        }
+      });
+    }, { passive: true });
+
+    // Cursor Spotlight Glow (optimized with requestAnimationFrame)
+    const glow = document.getElementById('cursor-glow');
+    if (glow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      let rafId = null;
+      window.addEventListener('mousemove', (e) => {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(() => {
+          glow.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139, 92, 246, 0.12), transparent 80%)`;
+        });
+      }, { passive: true });
+    }
+
+    // Typewriter Effect (robust substring loop without DOM pollution + tab visibility pause)
+    const words = ["C & Python Programming", "Assistive Tech Architecture", "Data Science Foundations", "Creative UI/UX Design"];
+    const typewriterEl = document.getElementById('typewriter');
+    if (typewriterEl) {
+      let wordIdx = 0;
+      let charIdx = 0;
+      let isDeleting = false;
+      let typewriterTimeout = null;
+
+      function typeLoop() {
+        const currentWord = words[wordIdx];
+        if (isDeleting) {
+          charIdx--;
+          typewriterEl.textContent = currentWord.substring(0, charIdx);
+        } else {
+          charIdx++;
+          typewriterEl.textContent = currentWord.substring(0, charIdx);
+        }
+
+        let typeSpeed = isDeleting ? 35 : 75;
+
+        if (!isDeleting && charIdx === currentWord.length) {
+          typeSpeed = 1600; // Pause at end of word
+          isDeleting = true;
+        } else if (isDeleting && charIdx === 0) {
+          isDeleting = false;
+          wordIdx = (wordIdx + 1) % words.length;
+          typeSpeed = 450; // Pause before typing next word
+        }
+
+        typewriterTimeout = setTimeout(typeLoop, typeSpeed);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearTimeout(typewriterTimeout);
+        } else {
+          typewriterTimeout = setTimeout(typeLoop, 300);
+        }
+      });
+
+      typeLoop();
+    }
+
+    // 3D Card Tilt Initialization
+    const tiltCardEl = document.querySelector(".tilt-card");
+    if (tiltCardEl && typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(tiltCardEl, {
+        max: 15,            // Max tilt angle (degrees)
+        speed: 400,          // Speed of transition
+        glare: true,         // Adds a realistic light-glare reflection
+        "max-glare": 0.35,   // Opacity of glare
+        scale: 1.03,         // Card pops out slightly on hover
+        perspective: 1000    // 3D perspective view
+      });
+    }
+
+    // Team Trinetra Interactive Mode Switcher
+    function setTrinetraMode(mode) {
+      const modes = {
+        detection: {
+          btnId: 'mode-btn-detection',
+          cardId: 'card-detection',
+          btnClass: 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30',
+          borderClass: 'border-cyan-400/40',
+          status: 'Scanning 180° front elevation: detecting ground-level drop-offs, knee height hurdles, and head-level obstacles.',
+          blip1Text: '0.8m Alert',
+          blip2Text: 'Depth Sensor',
+          caption: 'Obstacle Detection: Multi-zone spatial ultrasonic & AI vision active'
+        },
+        processing: {
+          btnId: 'mode-btn-processing',
+          cardId: 'card-processing',
+          btnClass: 'bg-purple-600 text-white shadow-md shadow-purple-600/30',
+          borderClass: 'border-purple-400/40',
+          status: 'AI Edge Processing: Microcontroller sensor fusion with low latency (<15ms) and power management.',
+          blip1Text: 'Edge Fusion',
+          blip2Text: '<15ms Latency',
+          caption: 'Edge Processing: Real-time sensor fusion & filtering on MCU'
+        },
+        haptic: {
+          btnId: 'mode-btn-haptic',
+          cardId: 'card-haptic',
+          btnClass: 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30',
+          borderClass: 'border-emerald-400/40',
+          status: 'Multimodal Feedback: Directional ergonomic handle vibration and frequency-based spatial audio cues.',
+          blip1Text: '120Hz Vibe',
+          blip2Text: 'Spatial Tone',
+          caption: 'Multimodal Alerts: Haptic motor pulse & proximity audio tones'
+        }
+      };
+
+      const active = modes[mode] || modes.detection;
+
+      // Reset buttons
+      document.querySelectorAll('.trinetra-mode-btn').forEach(btn => {
+        btn.className = 'trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10';
+      });
+      const activeBtn = document.getElementById(active.btnId);
+      if (activeBtn) {
+        activeBtn.className = 'trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ' + active.btnClass;
+      }
+
+      // Reset cards highlight
+      document.querySelectorAll('.trinetra-spec-card').forEach(c => {
+        c.classList.remove('border-cyan-400/40', 'border-purple-400/40', 'border-emerald-400/40', 'bg-white/[0.08]');
+        c.classList.add('border-white/5', 'bg-white/[0.04]');
+      });
+      const activeCard = document.getElementById(active.cardId);
+      if (activeCard) {
+        activeCard.classList.remove('border-white/5');
+        activeCard.classList.add(active.borderClass, 'bg-white/[0.08]');
+      }
+
+      // Update text & simulation blips
+      const statusEl = document.getElementById('trinetra-status-text');
+      if (statusEl) statusEl.textContent = active.status;
+
+      const blip1 = document.getElementById('blip-1-text');
+      if (blip1) blip1.textContent = active.blip1Text;
+
+      const blip2 = document.getElementById('blip-2-text');
+      if (blip2) blip2.textContent = active.blip2Text;
+
+      const caption = document.getElementById('radar-status-caption');
+      if (caption) {
+        caption.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${active.caption}`;
+      }
+    }
+
+    // Confetti celebration trigger
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 70,
+          spread: 60,
+          origin: { y: 0.85 },
+          colors: ['#8b5cf6', '#06b6d4', '#ec4899']
+        });
+      }
+    }
+
+    // Robust copy email function with fallback for non-secure / file:// protocols
+    function copyEmail() {
+      const email = "amitkrpatel000@gmail.com";
+      const notifySuccess = () => {
+        triggerConfetti();
+        const copyText = document.getElementById("copyText");
+        if (copyText) {
+          copyText.innerText = "Email Copied!";
+          setTimeout(() => {
+            copyText.innerText = "Copy: amitkrpatel000@gmail.com";
+          }, 2000);
+        }
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(email).then(notifySuccess).catch(() => {
+          fallbackCopy(email, notifySuccess);
+        });
+      } else {
+        fallbackCopy(email, notifySuccess);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      try {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        callback();
+      } catch (err) {
+        console.error("Copy failed", err);
+      }
+    }
+  </script>
+</body>
+</html>

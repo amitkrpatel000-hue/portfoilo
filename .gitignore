@@ -1,0 +1,7 @@
+# Video files
+*.mp4
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
