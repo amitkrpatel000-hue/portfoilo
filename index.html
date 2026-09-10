@@ -59,31 +59,41 @@
 <body class="relative min-h-screen">
 
   <!-- ========================================================
-       SECTION 1: FULLSCREEN HERO VIDEO (PURA VIDEO + NAME)
+       SECTION 1: FULLSCREEN VIDEO (FULL LENGTH & BREADTH, SINGLE NAME)
        ======================================================== -->
-  <section class="relative w-full h-screen flex flex-col justify-between items-center overflow-hidden bg-black p-4 sm:p-6">
+  <section class="relative w-full h-screen overflow-hidden flex flex-col justify-between">
     
-    <!-- Background Ambient Blur Copy of Video (Screen fill effect) -->
-    <div class="absolute inset-0 z-0 opacity-25 filter blur-3xl scale-110 pointer-events-none">
-      <video src="intro.mp4" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
-    </div>
+    <!-- Video Covering 100% Width & 100% Height -->
+    <video 
+      id="introVideo"
+      src="intro.mp4" 
+      class="absolute inset-0 w-full h-full object-cover z-0 cursor-pointer"
+      autoplay 
+      muted 
+      loop 
+      playsinline
+      onclick="togglePlayPause()"
+    ></video>
 
-    <!-- Top Header Overlay -->
-    <header class="relative z-20 w-full max-w-5xl flex items-center justify-between pt-2">
-      <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs">
+    <!-- Dark Gradient Tint for Text Readability -->
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/90 z-10 pointer-events-none"></div>
+
+    <!-- Top Overlay Bar -->
+    <header class="relative z-20 w-full max-w-6xl mx-auto px-6 pt-6 flex items-center justify-between">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 text-xs text-emerald-400 shadow-lg">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="text-neutral-300">Live Introduction</span>
+        <span class="text-neutral-200">Portfolio Intro</span>
       </div>
 
-      <!-- Header Socials & Audio Mute/Unmute Button -->
+      <!-- Quick Socials & Audio Toggle Button -->
       <div class="flex items-center gap-3">
-        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" title="GitHub">
+        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/10 text-neutral-300 hover:text-white transition-colors" title="GitHub">
           <i data-lucide="github" class="w-4 h-4"></i>
         </a>
-        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-cyan-400 transition-colors" title="LinkedIn">
+        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/10 text-neutral-300 hover:text-cyan-400 transition-colors" title="LinkedIn">
           <i data-lucide="linkedin" class="w-4 h-4"></i>
         </a>
-        <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-pink-400 transition-colors" title="Instagram">
+        <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" class="p-2 rounded-full bg-black/50 hover:bg-black/80 backdrop-blur-md border border-white/10 text-neutral-300 hover:text-pink-400 transition-colors" title="Instagram">
           <i data-lucide="instagram" class="w-4 h-4"></i>
         </a>
         <button 
@@ -97,35 +107,20 @@
       </div>
     </header>
 
-    <!-- Center: Complete, Uncropped Video Container -->
-    <div class="relative z-10 my-auto h-[62vh] sm:h-[68vh] aspect-[9/16] max-w-full rounded-3xl overflow-hidden shadow-2xl shadow-purple-950/60 border border-white/20 group">
-      <video 
-        id="introVideo"
-        src="intro.mp4" 
-        class="w-full h-full object-cover cursor-pointer"
-        autoplay 
-        muted 
-        loop 
-        playsinline
-        onclick="togglePlayPause()"
-      ></video>
-      <div class="absolute inset-0 pointer-events-none border-2 border-white/10 rounded-3xl"></div>
-    </div>
-
-    <!-- Bottom Name & Subtitle Overlay -->
-    <div class="relative z-20 w-full max-w-4xl text-center pb-2 space-y-2">
-      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-lg">
+    <!-- Bottom Overlay: SINGLE "AMIT KUMAR PATEL" Title -->
+    <div class="relative z-20 w-full max-w-4xl mx-auto px-6 pb-10 text-center space-y-3">
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white drop-shadow-2xl">
         AMIT KUMAR PATEL
       </h1>
-      <p class="text-xs sm:text-sm text-cyan-300 font-mono">
-        B.Tech Chemical Engineering (2025–2029) • MMMUT Gorakhpur
+      <p class="text-sm sm:text-base text-cyan-300 font-mono tracking-wide drop-shadow">
+        Chemical Engineering Undergraduate (2025–2029) • MMMUT Gorakhpur
       </p>
 
-      <!-- Scroll Down Indicator -->
-      <div class="pt-2">
-        <a href="#about-profile" class="inline-flex flex-col items-center text-[11px] text-neutral-400 hover:text-white transition-colors">
+      <!-- Scroll to explore indicator -->
+      <div class="pt-4">
+        <a href="#about-section" class="inline-flex flex-col items-center text-xs text-neutral-300 hover:text-white transition-colors">
           <span>Scroll to explore</span>
-          <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce mt-1 text-purple-400"></i>
+          <i data-lucide="chevron-down" class="w-5 h-5 animate-bounce mt-1 text-purple-400"></i>
         </a>
       </div>
     </div>
@@ -133,15 +128,15 @@
   </section>
 
   <!-- ========================================================
-       SECTION 2: 3D PHOTO & ABOUT SECTION (THIK VIDEO KE BAAD)
+       SECTION 2: 3D PHOTO & ACADEMICS (RIGHT AFTER FULLSCREEN VIDEO)
        ======================================================== -->
-  <main id="about-profile" class="relative z-10 max-w-5xl mx-auto px-5 pt-20 pb-20 space-y-24">
+  <main id="about-section" class="relative z-10 max-w-5xl mx-auto px-5 pt-20 pb-20 space-y-24">
 
     <!-- 3D Photo & Academic Bento Grid -->
     <section class="space-y-8">
       <div class="text-center space-y-1">
-        <h2 class="text-xs uppercase font-bold tracking-widest text-purple-400">Profile & Identity</h2>
-        <p class="text-3xl font-bold">About Amit</p>
+        <h2 class="text-xs uppercase font-bold tracking-widest text-purple-400">Profile</h2>
+        <p class="text-3xl font-bold">About Me</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -149,7 +144,6 @@
         <!-- Left: 3D Tilt Photo Card (5 Cols) -->
         <div class="lg:col-span-5 flex justify-center">
           <div class="relative group">
-            <!-- Neon ambient backlight -->
             <div class="absolute -inset-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur-2xl opacity-40 group-hover:opacity-75 transition duration-500"></div>
 
             <div 
@@ -159,7 +153,7 @@
               <div class="w-full h-full rounded-2xl overflow-hidden relative">
                 <img 
                   src="amit pic.jpg" 
-                  alt="Amit Kumar Patel" 
+                  alt="Profile" 
                   class="w-full h-full object-cover object-top filter contrast-[1.05]"
                 />
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0a0d14]/90 via-transparent to-transparent"></div>
@@ -171,8 +165,8 @@
                 style="transform: translateZ(40px);"
               >
                 <div>
-                  <p class="text-xs font-bold text-white">Amit Kumar Patel</p>
-                  <p class="text-[10px] text-cyan-400 font-mono">Roll: 2025061007</p>
+                  <p class="text-xs font-bold text-white">Student ID: 2025061007</p>
+                  <p class="text-[10px] text-cyan-400 font-mono">MMMUT Gorakhpur</p>
                 </div>
                 <div class="w-7 h-7 rounded-lg bg-purple-600/30 text-purple-300 flex items-center justify-center">
                   <i data-lucide="sparkles" class="w-4 h-4"></i>
@@ -185,9 +179,9 @@
         <!-- Right: Academics & Overview (7 Cols) -->
         <div class="lg:col-span-7 space-y-4">
           <div class="glass-card rounded-2xl p-6 space-y-3">
-            <h3 class="text-xl font-bold text-white">Chemical Engineering Undergraduate</h3>
+            <h3 class="text-xl font-bold text-white">Chemical Engineering Discipline</h3>
             <p class="text-neutral-300 text-sm leading-relaxed">
-              Pursuing B.Tech at Madan Mohan Malaviya University of Technology, Gorakhpur. Combining core chemical process fundamentals with software coding in C and Python, data science foundations, and smart hardware prototyping.
+              Undergraduate at Madan Mohan Malaviya University of Technology, Gorakhpur. Combining core engineering fundamentals with software logic in C programming, data science foundations, and hardware prototyping.
             </p>
             <div class="flex flex-wrap gap-4 text-xs text-neutral-400 pt-2 border-t border-white/5">
               <span>📍 Varanasi & Gorakhpur, UP</span>
@@ -206,13 +200,13 @@
             <div class="p-4 rounded-xl bg-white/[0.03] border border-cyan-500/30 space-y-1">
               <span class="text-[10px] font-mono text-cyan-400">Class XII (2024)</span>
               <p class="text-xl font-extrabold text-white">91.8%</p>
-              <p class="text-[10px] text-neutral-400">UP Board (Pindra, Varanasi)</p>
+              <p class="text-[10px] text-neutral-400">UP Board (Pindra)</p>
             </div>
 
             <div class="p-4 rounded-xl bg-white/[0.03] border border-indigo-500/30 space-y-1">
               <span class="text-[10px] font-mono text-indigo-400">Class X (2021)</span>
               <p class="text-xl font-extrabold text-white">86.6%</p>
-              <p class="text-[10px] text-neutral-400">UP Board (Pindra, Varanasi)</p>
+              <p class="text-[10px] text-neutral-400">UP Board (Pindra)</p>
             </div>
           </div>
         </div>
@@ -220,10 +214,10 @@
       </div>
     </section>
 
-    <!-- Project Trinetra Section -->
+    <!-- Flagship Project: Team Trinetra -->
     <section class="space-y-6">
       <div class="text-center space-y-1">
-        <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Flagship Innovation</h2>
+        <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Innovation</h2>
         <p class="text-3xl font-bold">Project TRINETRA</p>
       </div>
 
@@ -235,52 +229,50 @@
           <span class="text-xs font-mono text-neutral-400">Team Trinetra (Dec 2025 – Mar 2026)</span>
         </div>
 
-        <h3 class="text-xl sm:text-2xl font-bold text-white">Multi-Sensor Smart Assistive Cane for the Visually Impaired</h3>
+        <h3 class="text-xl sm:text-2xl font-bold text-white">Multi-Sensor Smart Cane for the Visually Impaired</h3>
         <p class="text-neutral-300 text-sm leading-relaxed">
-          Engineered the system architecture integrating ultrasonic and depth sensors with microcontroller processing to provide real-time spatial obstacle detection and haptic alerts for visually impaired individuals.
+          Engineered an AI-driven, multi-sensor assistive cane to enhance navigation and obstacle detection for visually impaired individuals, integrating sensors with intelligent software processing.
         </p>
 
         <div class="flex flex-wrap gap-2 pt-2">
-          <span class="px-3 py-1 rounded-md bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20 font-mono">System Architecture</span>
-          <span class="px-3 py-1 rounded-md bg-cyan-500/10 text-cyan-300 text-xs border border-cyan-500/20 font-mono">Assistive Hardware</span>
-          <span class="px-3 py-1 rounded-md bg-white/5 text-neutral-300 text-xs border border-white/10 font-mono">Sensor Fusion</span>
+          <span class="px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20 font-mono">System Architecture</span>
+          <span class="px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-300 text-xs border border-cyan-500/20 font-mono">Hardware Integration</span>
+          <span class="px-2.5 py-1 rounded-md bg-white/5 text-neutral-300 text-xs border border-white/10 font-mono">Assistive Tech</span>
         </div>
       </div>
     </section>
 
-    <!-- Skills & Responsibilities -->
+    <!-- Skills & Experience -->
     <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <!-- Skills -->
       <div class="glass-card rounded-2xl p-6 space-y-3">
         <h3 class="text-base font-bold text-white flex items-center gap-2">
           <i data-lucide="code" class="w-4 h-4 text-purple-400"></i> Technical & Tools
         </h3>
         <div class="flex flex-wrap gap-2">
           <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">C Language</span>
-          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Canva Design</span>
-          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">PowerPoint</span>
-          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Image/Video Tools</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Canva</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">MS PowerPoint</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Editing Tools</span>
           <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Data Science Foundations</span>
         </div>
       </div>
 
-      <!-- Experience & Chapter -->
       <div class="glass-card rounded-2xl p-6 space-y-3">
         <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i> Leadership & Service
+          <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i> Experience & Responsibility
         </h3>
         <ul class="text-xs text-neutral-300 space-y-2">
-          <li>• <strong>IIChE Student Chapter:</strong> Departmental Representative & Member (Apr 2026 – Ongoing)</li>
-          <li>• <strong>Kutumb NGO:</strong> Social Intern focused on child development (May 2026 – Jun 2026)</li>
-          <li>• <strong>NSS MMMUT:</strong> Active Volunteer in community welfare drives</li>
+          <li>• <strong>IIChE Chapter:</strong> Departmental Representative & Member (Apr 2026 – Ongoing)</li>
+          <li>• <strong>Kutumb NGO:</strong> Social Intern (May 2026 – Jun 2026)</li>
+          <li>• <strong>NSS MMMUT:</strong> Active Volunteer (Oct 2025 – Mar 2026)</li>
         </ul>
       </div>
     </section>
 
-    <!-- Contact & Socials -->
-    <section class="glass-card rounded-3xl p-8 text-center max-w-2xl mx-auto space-y-5">
+    <!-- Contact Section -->
+    <section id="contact" class="glass-card rounded-3xl p-8 text-center max-w-2xl mx-auto space-y-5">
       <h2 class="text-2xl font-bold text-white">Let's Connect</h2>
-      <p class="text-xs text-neutral-400">Open for technology discussions, hardware projects, and engineering opportunities.</p>
+      <p class="text-xs text-neutral-400">Available for technical discussions, collaborations, and opportunities.</p>
       
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
         <a href="mailto:amitkrpatel000@gmail.com" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-md shadow-purple-900/30">
@@ -310,10 +302,9 @@
 
   <!-- Scripts -->
   <script>
-    // Initialize Icons
     lucide.createIcons();
 
-    // Video Audio Toggle
+    // Fullscreen Video Audio Controls
     const video = document.getElementById('introVideo');
     const soundBtn = document.getElementById('soundToggleBtn');
     const volumeIcon = document.getElementById('volumeIcon');
@@ -341,7 +332,7 @@
       else video.pause();
     }
 
-    // Initialize 3D Tilt for Photo
+    // 3D Tilt Initialization
     if (typeof VanillaTilt !== 'undefined') {
       VanillaTilt.init(document.querySelector(".tilt-card"), {
         max: 15,
