@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Amit Kumar Patel | Portfolio</title>
   
-  <meta name="theme-color" content="#0a0d14">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚗️</text></svg>">
-  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts -->
@@ -16,10 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- VanillaTilt for 3D Tilt Effect -->
+  <!-- VanillaTilt for 3D Photo Effect -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
-  <!-- Canvas Confetti for Interactive Celebrations -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
   <script>
     tailwind.config = {
@@ -33,8 +28,6 @@
               purple: '#8b5cf6',
               cyan: '#06b6d4',
               dark: '#0a0d14',
-              card: 'rgba(255, 255, 255, 0.03)',
-              border: 'rgba(255, 255, 255, 0.08)',
             }
           }
         }
@@ -58,250 +51,130 @@
     .glass-card:hover {
       border-color: rgba(139, 92, 246, 0.4);
       transform: translateY(-3px);
-      box-shadow: 0 10px 25px -10px rgba(139, 92, 246, 0.25);
-    }
-    .glow-bg {
-      position: absolute;
-      border-radius: 9999px;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    /* Anchor scrolling offset for fixed navbar */
-    section[id] {
-      scroll-margin-top: 6.5rem;
-    }
-    /* 3D Photo Card */
-    .tilt-card {
-      transform-style: preserve-3d;
-      transform: perspective(1000px);
-    }
-    .tilt-card .tilt-inner {
-      transform-style: preserve-3d;
-    }
-    .tilt-card .floating-badge {
-      transform: translateZ(40px);
-      backface-visibility: hidden;
-    }
-    .tilt-card .photo-layer {
-      transform: translateZ(20px);
-    }
-    .tilt-card .js-tilt-glare {
-      border-radius: 1.5rem;
-    }
-    .photo-glow {
-      position: absolute;
-      inset: -20px;
-      background: radial-gradient(ellipse at center, rgba(139,92,246,0.2) 0%, transparent 70%);
-      border-radius: 2rem;
-      z-index: -1;
-      filter: blur(25px);
-      animation: photo-pulse 4s ease-in-out infinite alternate;
-    }
-    @keyframes photo-pulse {
-      from { opacity: 0.5; transform: scale(0.95); }
-      to   { opacity: 0.8; transform: scale(1.05); }
-    }
-    /* Active Nav link glowing state */
-    .nav-link.active {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-      border-radius: 9999px;
-    }
-    /* Disable cursor spotlight on touch devices */
-    @media (hover: none) or (pointer: coarse) {
-      #cursor-glow {
-        display: none !important;
-      }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .animate-pulse, .animate-ping, .photo-glow {
-        animation: none !important;
-      }
+      box-shadow: 0 12px 30px -10px rgba(139, 92, 246, 0.25);
     }
   </style>
 </head>
 
 <body class="relative min-h-screen">
 
-  <!-- Ambient Glow Effects -->
-  <div class="glow-bg w-96 h-96 bg-purple-600/15 top-10 left-1/4"></div>
-  <div class="glow-bg w-96 h-96 bg-cyan-500/10 top-96 right-1/4"></div>
-  <div class="glow-bg w-[32rem] h-[32rem] bg-indigo-600/10 bottom-40 left-1/3"></div>
+  <!-- ========================================================
+       SECTION 1: FULLSCREEN HERO VIDEO (PURA VIDEO + NAME)
+       ======================================================== -->
+  <section class="relative w-full h-screen flex flex-col justify-between items-center overflow-hidden bg-black p-4 sm:p-6">
+    
+    <!-- Background Ambient Blur Copy of Video (Screen fill effect) -->
+    <div class="absolute inset-0 z-0 opacity-25 filter blur-3xl scale-110 pointer-events-none">
+      <video src="intro.mp4" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
+    </div>
 
-  <!-- Background Spotlight Div -->
-  <div id="cursor-glow" class="pointer-events-none fixed inset-0 z-30 transition duration-300"></div>
-
-  <!-- Floating Navbar -->
-  <header class="fixed top-5 inset-x-0 z-50 flex justify-center px-4">
-    <nav class="glass-card rounded-full px-5 sm:px-6 py-3 flex items-center justify-between w-full max-w-5xl shadow-2xl shadow-black/50">
-      <a href="#hero" class="text-base font-bold tracking-tight bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent shrink-0">
-        Amit Kumar Patel<span class="text-cyan-400">.</span>
-      </a>
-
-      <!-- Desktop Nav Links -->
-      <div class="hidden md:flex items-center space-x-1 text-sm font-medium">
-        <a href="#hero" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Hero</a>
-        <a href="#profile" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Profile</a>
-        <a href="#projects" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Trinetra</a>
-        <a href="#skills" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Skills</a>
-        <a href="#experience" class="nav-link px-3 py-1.5 rounded-full text-neutral-300 hover:text-white transition-colors">Experience</a>
+    <!-- Top Header Overlay -->
+    <header class="relative z-20 w-full max-w-5xl flex items-center justify-between pt-2">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-neutral-300">Live Introduction</span>
       </div>
 
+      <!-- Header Socials & Audio Mute/Unmute Button -->
       <div class="flex items-center gap-3">
-        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" title="GitHub Profile">
+        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-white transition-colors" title="GitHub">
           <i data-lucide="github" class="w-4 h-4"></i>
         </a>
-        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-cyan-400 transition-colors" title="LinkedIn Profile">
+        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-cyan-400 transition-colors" title="LinkedIn">
           <i data-lucide="linkedin" class="w-4 h-4"></i>
         </a>
-        <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-pink-400 transition-colors" title="Instagram (@amit_kumar_patel_0020)">
+        <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" class="text-neutral-400 hover:text-pink-400 transition-colors" title="Instagram">
           <i data-lucide="instagram" class="w-4 h-4"></i>
         </a>
-        <a href="#contact" class="hidden sm:inline-flex px-4 py-1.5 text-xs font-semibold uppercase tracking-wider rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white transition-all shadow-md shadow-purple-900/30">
-          Contact
-        </a>
-        <!-- Mobile Menu Hamburger Button -->
-        <button id="mobile-menu-btn" type="button" aria-label="Toggle Navigation Menu" class="md:hidden p-1.5 text-neutral-400 hover:text-white focus:outline-none transition-colors">
-          <i data-lucide="menu" id="menu-icon-open" class="w-5 h-5"></i>
-          <i data-lucide="x" id="menu-icon-close" class="w-5 h-5 hidden"></i>
+        <button 
+          id="soundToggleBtn" 
+          onclick="toggleSound()" 
+          class="px-4 py-2 rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md border border-white/20 text-white text-xs font-semibold flex items-center gap-2 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-purple-950/40"
+        >
+          <i id="volumeIcon" data-lucide="volume-x" class="w-4 h-4 text-purple-400"></i>
+          <span id="volumeText">Click to Unmute</span>
         </button>
       </div>
-    </nav>
-  </header>
+    </header>
 
-  <!-- Mobile Navigation Dropdown -->
-  <div id="mobile-menu" class="hidden fixed top-20 inset-x-4 z-40 glass-card rounded-2xl p-5 shadow-2xl border border-white/10 flex flex-col space-y-2 max-w-md mx-auto">
-    <a href="#hero" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Hero (Video)</a>
-    <a href="#profile" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Profile &amp; Academics</a>
-    <a href="#projects" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Project Trinetra</a>
-    <a href="#skills" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Skills</a>
-    <a href="#experience" class="mobile-nav-link text-neutral-300 hover:text-white py-2 px-3 rounded-lg hover:bg-white/5 font-medium transition-colors">Experience</a>
-    <a href="#contact" class="mobile-nav-link text-center text-xs font-semibold uppercase tracking-wider py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium shadow-md shadow-purple-900/30 mt-2">Contact Me</a>
-  </div>
-
-  <!-- SECTION 1: Fullscreen Video Hero (100vh) -->
-  <section id="hero" class="relative w-full h-screen flex items-center justify-center overflow-hidden bg-[#07090e]">
-    <!-- Ambient Duplicated Blurred Video Glow -->
-    <video 
-      src="intro.mp4" 
-      autoplay 
-      muted 
-      loop 
-      playsinline 
-      class="absolute inset-0 w-full h-full object-cover filter blur-3xl opacity-30 scale-110 pointer-events-none select-none"
-    ></video>
-
-    <!-- Deep Ambient Vignette Gradients -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[#0a0d14]/70 via-transparent to-[#0a0d14] pointer-events-none z-10"></div>
-
-    <!-- Centered Vertical Portrait Video Frame (Complete, Uncropped Vertical Format) -->
-    <div class="relative z-20 h-[72vh] sm:h-[78vh] max-h-[740px] aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_0_60px_rgba(139,92,246,0.3)] border border-white/20 bg-black/90 group flex items-center justify-center">
-      
-      <!-- Video Element -->
+    <!-- Center: Complete, Uncropped Video Container -->
+    <div class="relative z-10 my-auto h-[62vh] sm:h-[68vh] aspect-[9/16] max-w-full rounded-3xl overflow-hidden shadow-2xl shadow-purple-950/60 border border-white/20 group">
       <video 
-        id="heroIntroVideo" 
+        id="introVideo"
         src="intro.mp4" 
+        class="w-full h-full object-cover cursor-pointer"
         autoplay 
         muted 
         loop 
-        playsinline 
-        class="w-full h-full object-cover cursor-pointer"
-        onclick="toggleHeroVideoPlay(event)"
+        playsinline
+        onclick="togglePlayPause()"
       ></video>
+      <div class="absolute inset-0 pointer-events-none border-2 border-white/10 rounded-3xl"></div>
+    </div>
 
-      <!-- Top-Left "Intro Video" Status Badge -->
-      <div class="absolute top-4 left-4 z-30 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-emerald-500/40 text-emerald-400 text-xs font-semibold shadow-lg pointer-events-none">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>Intro Video</span>
-      </div>
+    <!-- Bottom Name & Subtitle Overlay -->
+    <div class="relative z-20 w-full max-w-4xl text-center pb-2 space-y-2">
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-lg">
+        AMIT KUMAR PATEL
+      </h1>
+      <p class="text-xs sm:text-sm text-cyan-300 font-mono">
+        B.Tech Chemical Engineering (2025–2029) • MMMUT Gorakhpur
+      </p>
 
-      <!-- Top-Right Floating Audio Mute/Unmute Button -->
-      <button 
-        id="heroAudioBtn"
-        type="button"
-        onclick="toggleHeroAudio(event)" 
-        class="absolute top-4 right-4 z-30 p-2.5 sm:px-3.5 sm:py-2 rounded-full bg-black/60 hover:bg-black/90 backdrop-blur-md border border-white/20 text-white shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group cursor-pointer"
-        title="Toggle Audio"
-        aria-label="Toggle Sound"
-      >
-        <i id="heroVolumeIcon" data-lucide="volume-x" class="w-4 h-4 text-purple-300 group-hover:text-cyan-400 transition-colors"></i>
-        <span id="heroVolumeText" class="text-[11px] font-medium hidden sm:inline text-neutral-300">Unmute</span>
-      </button>
-
-      <!-- Prominent Overlay at Bottom of Video -->
-      <div class="absolute bottom-0 inset-x-0 z-20 p-6 sm:p-8 bg-gradient-to-t from-[#0a0d14] via-[#0a0d14]/85 to-transparent text-center space-y-2 pointer-events-none">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[11px] font-mono font-medium">
-          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-          Batch 2025–2029 • Class of '29
-        </div>
-        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black tracking-wider text-white uppercase drop-shadow-[0_2px_14px_rgba(0,0,0,0.9)]">
-          AMIT KUMAR PATEL
-        </h1>
-        <p class="text-xs sm:text-sm text-neutral-300 font-medium tracking-wide">
-          B.Tech Chemical Engineering | MMMUT Gorakhpur
-        </p>
+      <!-- Scroll Down Indicator -->
+      <div class="pt-2">
+        <a href="#about-profile" class="inline-flex flex-col items-center text-[11px] text-neutral-400 hover:text-white transition-colors">
+          <span>Scroll to explore</span>
+          <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce mt-1 text-purple-400"></i>
+        </a>
       </div>
     </div>
 
-    <!-- Animated "Scroll to explore" Bouncing Indicator at Bottom -->
-    <a href="#profile" class="absolute bottom-5 z-30 flex flex-col items-center gap-2 text-neutral-400 hover:text-cyan-400 transition-colors cursor-pointer group">
-      <span class="text-[10px] sm:text-xs uppercase tracking-widest font-semibold group-hover:text-cyan-300 transition-colors">Scroll to explore</span>
-      <div class="w-5 h-9 rounded-full border-2 border-white/20 group-hover:border-cyan-400/60 flex justify-center p-1 transition-colors">
-        <div class="w-1.5 h-2 bg-cyan-400 rounded-full animate-bounce"></div>
-      </div>
-    </a>
   </section>
 
-  <main class="relative z-10 max-w-5xl mx-auto px-5 pt-16 pb-20 space-y-28">
+  <!-- ========================================================
+       SECTION 2: 3D PHOTO & ABOUT SECTION (THIK VIDEO KE BAAD)
+       ======================================================== -->
+  <main id="about-profile" class="relative z-10 max-w-5xl mx-auto px-5 pt-20 pb-20 space-y-24">
 
-    <!-- SECTION 2: 3D Photo & Academic Bento Profile -->
-    <section id="profile" class="space-y-10">
-      
-      <!-- Section Header -->
-      <div class="text-center space-y-2">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-semibold shadow-lg">
-          <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Profile &amp; Core Identity
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
-          Meet <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">Amit Kumar Patel</span>
-        </h2>
-        <p class="text-neutral-400 text-sm max-w-2xl mx-auto">
-          Chemical engineering undergraduate at Madan Mohan Malaviya University of Technology, Gorakhpur. Merging chemical engineering principles with smart systems, C &amp; Python computational modeling, and assistive technology architecture.
-        </p>
+    <!-- 3D Photo & Academic Bento Grid -->
+    <section class="space-y-8">
+      <div class="text-center space-y-1">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-purple-400">Profile & Identity</h2>
+        <p class="text-3xl font-bold">About Amit</p>
       </div>
 
-      <!-- Side-by-Side Bento Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         
-        <!-- Left: 3D Perspective Photo Card -->
+        <!-- Left: 3D Tilt Photo Card (5 Cols) -->
         <div class="lg:col-span-5 flex justify-center">
-          <div class="relative group w-72 sm:w-80 h-[480px] sm:h-[520px]">
-            <!-- Neon Ambient Glow -->
-            <div class="absolute -inset-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 rounded-3xl blur-2xl opacity-35 group-hover:opacity-65 transition duration-500 pointer-events-none"></div>
+          <div class="relative group">
+            <!-- Neon ambient backlight -->
+            <div class="absolute -inset-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur-2xl opacity-40 group-hover:opacity-75 transition duration-500"></div>
 
             <div 
-              id="photoView" 
-              class="tilt-card relative w-full h-full rounded-3xl p-3 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 shadow-2xl shadow-purple-950/50 overflow-hidden cursor-pointer"
+              class="tilt-card relative w-72 sm:w-80 h-[440px] rounded-3xl p-2.5 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 shadow-2xl cursor-pointer"
               style="transform-style: preserve-3d;"
             >
-              <img 
-                src="amit pic.jpg" 
-                alt="Amit Kumar Patel" 
-                class="w-full h-full object-cover object-top filter contrast-[1.05] rounded-2xl"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-[#0a0d14]/90 via-transparent to-transparent pointer-events-none"></div>
+              <div class="w-full h-full rounded-2xl overflow-hidden relative">
+                <img 
+                  src="amit pic.jpg" 
+                  alt="Amit Kumar Patel" 
+                  class="w-full h-full object-cover object-top filter contrast-[1.05]"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0a0d14]/90 via-transparent to-transparent"></div>
+              </div>
 
-              <!-- 3D Pop-out Badge -->
+              <!-- 3D Floating Tag -->
               <div 
-                class="absolute bottom-5 inset-x-4 p-3 rounded-xl bg-black/75 backdrop-blur-md border border-white/15 flex items-center justify-between pointer-events-none shadow-xl"
+                class="absolute bottom-5 inset-x-5 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 flex items-center justify-between"
                 style="transform: translateZ(40px);"
               >
                 <div>
-                  <h3 class="text-sm font-bold text-white leading-tight">Amit Kumar Patel</h3>
-                  <p class="text-[11px] text-cyan-400 font-mono">B.Tech Chemical Engg • MMMUT</p>
+                  <p class="text-xs font-bold text-white">Amit Kumar Patel</p>
+                  <p class="text-[10px] text-cyan-400 font-mono">Roll: 2025061007</p>
                 </div>
-                <div class="w-8 h-8 rounded-lg bg-purple-600/30 text-purple-300 flex items-center justify-center flex-shrink-0">
+                <div class="w-7 h-7 rounded-lg bg-purple-600/30 text-purple-300 flex items-center justify-center">
                   <i data-lucide="sparkles" class="w-4 h-4"></i>
                 </div>
               </div>
@@ -309,754 +182,175 @@
           </div>
         </div>
 
-        <!-- Right: Bento Grid for Academics, Chemical Engg, and Bio -->
-        <div class="lg:col-span-7 space-y-5">
-          
-          <!-- Quick Bio Card with Typewriter -->
-          <div class="glass-card rounded-2xl p-6 space-y-4">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-lg bg-purple-600/20 text-purple-400 flex items-center justify-center">
-                  <i data-lucide="user" class="w-5 h-5"></i>
-                </div>
-                <div>
-                  <h3 class="text-lg font-bold text-white">About Amit</h3>
-                  <p class="text-xs text-neutral-400">Class of 2029 • Student ID: 2025061007</p>
-                </div>
-              </div>
-              <span class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
-                MMMUT Gorakhpur
-              </span>
-            </div>
-
+        <!-- Right: Academics & Overview (7 Cols) -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="glass-card rounded-2xl p-6 space-y-3">
+            <h3 class="text-xl font-bold text-white">Chemical Engineering Undergraduate</h3>
             <p class="text-neutral-300 text-sm leading-relaxed">
-              Pursuing Bachelor of Technology in Chemical Engineering. Beyond core chemical processes, I actively explore smart assistive robotics, algorithmic C &amp; Python modeling, and innovative hardware systems.
+              Pursuing B.Tech at Madan Mohan Malaviya University of Technology, Gorakhpur. Combining core chemical process fundamentals with software coding in C and Python, data science foundations, and smart hardware prototyping.
             </p>
-
-            <!-- Typewriter Display -->
-            <div class="text-sm pt-1">
-              <span class="text-neutral-400">Specializing in </span>
-              <span id="typewriter" class="text-cyan-400 font-mono font-bold border-r-2 border-cyan-400 pr-1 animate-pulse"></span>
-            </div>
-
-            <!-- Quick Action Links -->
-            <div class="flex flex-wrap items-center gap-3 pt-2">
-              <a href="#projects" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-md shadow-purple-600/30">
-                View Trinetra <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-              </a>
-              <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-200 text-xs font-semibold flex items-center gap-2 transition-all">
-                <i data-lucide="github" class="w-3.5 h-3.5"></i> GitHub
-              </a>
-              <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-200 text-xs font-semibold flex items-center gap-2 transition-all">
-                <i data-lucide="linkedin" class="w-3.5 h-3.5"></i> LinkedIn
-              </a>
+            <div class="flex flex-wrap gap-4 text-xs text-neutral-400 pt-2 border-t border-white/5">
+              <span>📍 Varanasi & Gorakhpur, UP</span>
+              <span>🎓 Batch: 2025 — 2029</span>
             </div>
           </div>
 
-          <!-- Academic Records (MMMUT, 12th, 10th) -->
-          <div class="space-y-3">
-            <div class="flex items-center justify-between px-1">
-              <h4 class="text-xs uppercase font-bold tracking-widest text-cyan-400 flex items-center gap-1.5">
-                <i data-lucide="graduation-cap" class="w-4 h-4"></i> Academic Records
-              </h4>
+          <!-- Academic Score Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-4 rounded-xl bg-white/[0.03] border border-purple-500/30 space-y-1">
+              <span class="text-[10px] font-mono text-purple-400">B.Tech 2nd Sem</span>
+              <p class="text-xl font-extrabold text-white">8.3 CGPA</p>
+              <p class="text-[10px] text-neutral-400">MMMUT Gorakhpur</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <!-- B.Tech -->
-              <div class="glass-card rounded-2xl p-4 space-y-2 border-purple-500/30 bg-purple-950/10">
-                <span class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 text-[11px] font-mono">2025 — 2029</span>
-                <h5 class="text-xs font-bold text-white">B.Tech Chemical Engg</h5>
-                <p class="text-[11px] text-neutral-400">MMMUT Gorakhpur</p>
-                <div class="pt-1.5 border-t border-white/5 flex justify-between items-center text-[11px]">
-                  <span class="text-neutral-400">CGPA</span>
-                  <span class="text-emerald-400 font-bold">8.3 / 10.0 (2nd Sem)</span>
-                </div>
-              </div>
+            <div class="p-4 rounded-xl bg-white/[0.03] border border-cyan-500/30 space-y-1">
+              <span class="text-[10px] font-mono text-cyan-400">Class XII (2024)</span>
+              <p class="text-xl font-extrabold text-white">91.8%</p>
+              <p class="text-[10px] text-neutral-400">UP Board (Pindra, Varanasi)</p>
+            </div>
 
-              <!-- Class XII -->
-              <div class="glass-card rounded-2xl p-4 space-y-2">
-                <span class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 text-[11px] font-mono">2024</span>
-                <h5 class="text-xs font-bold text-white">Class XII (UP Board)</h5>
-                <p class="text-[11px] text-neutral-400">National Inter College</p>
-                <div class="pt-1.5 border-t border-white/5 flex justify-between items-center text-[11px]">
-                  <span class="text-neutral-400">Score</span>
-                  <span class="text-cyan-400 font-bold">91.8%</span>
-                </div>
-              </div>
-
-              <!-- Class X -->
-              <div class="glass-card rounded-2xl p-4 space-y-2">
-                <span class="px-2 py-0.5 rounded bg-indigo-500/15 text-indigo-300 text-[11px] font-mono">2021</span>
-                <h5 class="text-xs font-bold text-white">Class X (UP Board)</h5>
-                <p class="text-[11px] text-neutral-400">National Inter College</p>
-                <div class="pt-1.5 border-t border-white/5 flex justify-between items-center text-[11px]">
-                  <span class="text-neutral-400">Score</span>
-                  <span class="text-indigo-400 font-bold">86.6%</span>
-                </div>
-              </div>
+            <div class="p-4 rounded-xl bg-white/[0.03] border border-indigo-500/30 space-y-1">
+              <span class="text-[10px] font-mono text-indigo-400">Class X (2021)</span>
+              <p class="text-xl font-extrabold text-white">86.6%</p>
+              <p class="text-[10px] text-neutral-400">UP Board (Pindra, Varanasi)</p>
             </div>
           </div>
-
-          <!-- Dedicated Chemical Engineering Discipline & Leadership Card -->
-          <div class="glass-card rounded-2xl p-5 border border-cyan-500/20 relative overflow-hidden space-y-3">
-            <div class="flex items-center justify-between border-b border-white/5 pb-3">
-              <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center">
-                  <i data-lucide="flask-conical" class="w-4 h-4"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-bold text-white">Chemical Engineering Discipline</h4>
-                  <p class="text-[11px] text-neutral-400">Core studies, computation &amp; student leadership</p>
-                </div>
-              </div>
-              <span class="text-[11px] font-mono px-2.5 py-1 rounded-md bg-white/5 text-cyan-300 border border-white/10">
-                IIChE Student Chapter
-              </span>
-            </div>
-
-            <p class="text-neutral-300 text-xs leading-relaxed">
-              Bridging traditional chemical engineering fundamentals—material &amp; energy balances, thermodynamics, and transport phenomena—with computational modeling in C &amp; Python. Serving as <span class="text-cyan-300 font-semibold">Departmental Representative</span> at IIChE Student Chapter, MMMUT.
-            </p>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-cyan-300">
-                  <i data-lucide="atom" class="w-3.5 h-3.5"></i> Fundamentals
-                </div>
-                <p class="text-[10px] text-neutral-400">Mass/Energy balances &amp; process calculations.</p>
-              </div>
-              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-purple-300">
-                  <i data-lucide="binary" class="w-3.5 h-3.5"></i> Computation
-                </div>
-                <p class="text-[10px] text-neutral-400">Numerical C &amp; Python algorithms.</p>
-              </div>
-              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
-                  <i data-lucide="users" class="w-3.5 h-3.5"></i> Representative
-                </div>
-                <p class="text-[10px] text-neutral-400">IIChE Chapter leadership &amp; events.</p>
-              </div>
-            </div>
-          </div>
-
         </div>
 
       </div>
-
     </section>
 
-    <!-- Flagship Project: Team Trinetra Showcase -->
-    <section id="projects" class="space-y-8">
-      <div id="trinetra-project" class="text-center space-y-2">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
-          <i data-lucide="trophy" class="w-3.5 h-3.5 text-amber-400"></i>
-          2nd Place Winner • Campus Ideathon Competition (2026)
+    <!-- Project Trinetra Section -->
+    <section class="space-y-6">
+      <div class="text-center space-y-1">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Flagship Innovation</h2>
+        <p class="text-3xl font-bold">Project TRINETRA</p>
+      </div>
+
+      <div class="glass-card rounded-3xl p-6 sm:p-8 border border-purple-500/30 space-y-4">
+        <div class="flex flex-wrap justify-between items-center gap-2">
+          <span class="px-3 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-semibold">
+            🏆 2nd Place Winner • Campus Ideathon Competition
+          </span>
+          <span class="text-xs font-mono text-neutral-400">Team Trinetra (Dec 2025 – Mar 2026)</span>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
-          Project <span class="bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">TRINETRA</span>
-        </h2>
-        <p class="text-neutral-400 text-sm max-w-xl mx-auto">
-          AI-Driven Multi-Sensor Smart Cane for Visually Impaired Mobility (Dec 2025 – Mar 2026)
+
+        <h3 class="text-xl sm:text-2xl font-bold text-white">Multi-Sensor Smart Assistive Cane for the Visually Impaired</h3>
+        <p class="text-neutral-300 text-sm leading-relaxed">
+          Engineered the system architecture integrating ultrasonic and depth sensors with microcontroller processing to provide real-time spatial obstacle detection and haptic alerts for visually impaired individuals.
         </p>
-      </div>
 
-      <!-- Main Showcase Bento Grid -->
-      <div class="glass-card rounded-3xl p-6 sm:p-10 border border-purple-500/30 relative overflow-hidden">
-        <!-- Background Gradient Spot -->
-        <div class="absolute -top-24 -right-24 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          
-          <!-- Left: Project Narrative & Core Specs (7 Cols) -->
-          <div class="lg:col-span-7 space-y-6">
-            <div class="space-y-3">
-              <div class="flex items-center gap-3">
-                <span class="px-3 py-1 rounded-md bg-purple-500/20 text-purple-300 text-xs font-mono font-semibold uppercase tracking-wider">
-                  Flagship Innovation
-                </span>
-                <span class="text-xs text-neutral-400 font-mono">Team Trinetra</span>
-              </div>
-              <h3 class="text-2xl sm:text-3xl font-bold text-white">
-                Assistive Navigation with Intelligent Sensor Fusion
-              </h3>
-              <p class="text-neutral-300 text-sm sm:text-base leading-relaxed">
-                Designed and engineered the core system architecture integrating multi-directional sensors with intelligent processing to help visually impaired individuals detect spatial obstacles in real time with high reliability.
-              </p>
-            </div>
-
-            <!-- Interactive Mode Toggles -->
-            <div class="flex flex-wrap gap-2">
-              <button type="button" onclick="setTrinetraMode('detection')" id="mode-btn-detection" class="trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-purple-600 text-white shadow-md shadow-purple-600/30">
-                <i data-lucide="radio" class="w-3.5 h-3.5"></i> Obstacle Detection
-              </button>
-              <button type="button" onclick="setTrinetraMode('processing')" id="mode-btn-processing" class="trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10">
-                <i data-lucide="cpu" class="w-3.5 h-3.5"></i> AI Edge Processing
-              </button>
-              <button type="button" onclick="setTrinetraMode('haptic')" id="mode-btn-haptic" class="trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10">
-                <i data-lucide="vibrate" class="w-3.5 h-3.5"></i> Haptic Alert
-              </button>
-            </div>
-
-            <!-- Architecture Breakdown Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div id="card-detection" onclick="setTrinetraMode('detection')" class="trinetra-spec-card p-3.5 rounded-xl bg-white/[0.04] border border-cyan-400/40 cursor-pointer transition-all space-y-1.5">
-                <div class="text-cyan-400"><i data-lucide="radio" class="w-5 h-5"></i></div>
-                <h4 class="text-xs font-bold text-white">Multi-Sensor Array</h4>
-                <p class="text-[11px] text-neutral-400 leading-snug">Ultrasonic & spatial depth sensing covering 180° front elevation.</p>
-              </div>
-
-              <div id="card-processing" onclick="setTrinetraMode('processing')" class="trinetra-spec-card p-3.5 rounded-xl bg-white/[0.04] border border-white/5 hover:border-purple-400/30 cursor-pointer transition-all space-y-1.5">
-                <div class="text-purple-400"><i data-lucide="cpu" class="w-5 h-5"></i></div>
-                <h4 class="text-xs font-bold text-white">System Architecture</h4>
-                <p class="text-[11px] text-neutral-400 leading-snug">Low-latency hardware-software integration for edge processing.</p>
-              </div>
-
-              <div id="card-haptic" onclick="setTrinetraMode('haptic')" class="trinetra-spec-card p-3.5 rounded-xl bg-white/[0.04] border border-white/5 hover:border-emerald-400/30 cursor-pointer transition-all space-y-1.5">
-                <div class="text-emerald-400"><i data-lucide="vibrate" class="w-5 h-5"></i></div>
-                <h4 class="text-xs font-bold text-white">Haptic Feedback</h4>
-                <p class="text-[11px] text-neutral-400 leading-snug">Vibrational alerts & sound cues indicating obstacle proximity.</p>
-              </div>
-            </div>
-
-            <!-- Dynamic Mode Description Bar -->
-            <div class="p-3 rounded-xl bg-purple-950/20 border border-purple-500/20 text-xs text-neutral-300 flex items-center gap-2">
-              <i data-lucide="info" class="w-4 h-4 text-purple-400 shrink-0"></i>
-              <span id="trinetra-status-text">Scanning 180° front elevation: detecting ground-level drop-offs, knee height hurdles, and head-level obstacles.</span>
-            </div>
-
-            <!-- Tech Stack Pills -->
-            <div class="flex flex-wrap gap-2 pt-2 border-t border-white/5">
-              <span class="px-2.5 py-1 rounded-lg bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20 font-mono">Assistive Robotics</span>
-              <span class="px-2.5 py-1 rounded-lg bg-cyan-500/10 text-cyan-300 text-xs border border-cyan-500/20 font-mono">Sensor Integration</span>
-              <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 text-xs border border-indigo-500/20 font-mono">Hardware Architecture</span>
-              <span class="px-2.5 py-1 rounded-lg bg-white/5 text-neutral-300 text-xs border border-white/10 font-mono">C Programming</span>
-            </div>
-          </div>
-
-          <!-- Right: Interactive Radar & Sonar Visualizer (5 Cols) -->
-          <div class="lg:col-span-5 flex flex-col items-center justify-center">
-            <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full border border-purple-500/20 bg-black/40 flex items-center justify-center shadow-inner shadow-purple-950/40">
-              
-              <!-- Concentric Radar Rings -->
-              <div class="absolute inset-4 rounded-full border border-white/10"></div>
-              <div class="absolute inset-12 rounded-full border border-cyan-500/20"></div>
-              <div class="absolute inset-20 rounded-full border border-purple-500/30"></div>
-
-              <!-- Pulsing Waves -->
-              <div id="radar-wave" class="absolute inset-0 rounded-full border border-purple-500/40 animate-ping opacity-25"></div>
-
-              <!-- Crosshairs -->
-              <div class="absolute inset-x-0 top-1/2 h-[1px] bg-white/10"></div>
-              <div class="absolute inset-y-0 left-1/2 w-[1px] bg-white/10"></div>
-
-              <!-- Center Node: Smart Cane Core -->
-              <div id="radar-core" class="relative z-10 w-16 h-16 rounded-2xl bg-gradient-to-tr from-purple-600 to-cyan-500 p-0.5 shadow-lg shadow-purple-600/50 flex items-center justify-center transition-all">
-                <div class="w-full h-full bg-[#0a0d14] rounded-2xl flex flex-col items-center justify-center text-center p-1">
-                  <i data-lucide="eye" class="w-5 h-5 text-cyan-400 mb-0.5"></i>
-                  <span class="text-[9px] font-bold tracking-widest text-white uppercase">TRINETRA</span>
-                </div>
-              </div>
-
-              <!-- Blip 1: Simulated Detected Obstacle -->
-              <div id="blip-1" class="absolute top-12 right-16 flex items-center gap-1.5 animate-pulse transition-all">
-                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 shadow-md shadow-cyan-400"></span>
-                <span id="blip-1-text" class="text-[10px] font-mono text-cyan-300 bg-black/70 px-1.5 py-0.5 rounded border border-cyan-400/30">0.8m Alert</span>
-              </div>
-
-              <!-- Blip 2: Ground Elevation Drop -->
-              <div id="blip-2" class="absolute bottom-12 left-12 flex items-center gap-1.5 transition-all">
-                <span class="w-2.5 h-2.5 rounded-full bg-purple-400 animate-ping shadow-md shadow-purple-400"></span>
-                <span id="blip-2-text" class="text-[10px] font-mono text-purple-300 bg-black/70 px-1.5 py-0.5 rounded border border-purple-400/30">Depth Sensor</span>
-              </div>
-            </div>
-
-            <span id="radar-status-caption" class="mt-4 text-[11px] font-mono text-neutral-400 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Active Sensor Fusion Concept Simulation
-            </span>
-          </div>
-
+        <div class="flex flex-wrap gap-2 pt-2">
+          <span class="px-3 py-1 rounded-md bg-purple-500/10 text-purple-300 text-xs border border-purple-500/20 font-mono">System Architecture</span>
+          <span class="px-3 py-1 rounded-md bg-cyan-500/10 text-cyan-300 text-xs border border-cyan-500/20 font-mono">Assistive Hardware</span>
+          <span class="px-3 py-1 rounded-md bg-white/5 text-neutral-300 text-xs border border-white/10 font-mono">Sensor Fusion</span>
         </div>
       </div>
     </section>
 
-    <!-- Skills & Interests -->
-    <section id="skills" class="space-y-6">
-      <div class="text-center space-y-1">
-        <h2 class="text-xs uppercase font-bold tracking-widest text-indigo-400">Expertise</h2>
-        <p class="text-2xl font-bold">Skills & Personal Interests</p>
+    <!-- Skills & Responsibilities -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Skills -->
+      <div class="glass-card rounded-2xl p-6 space-y-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="code" class="w-4 h-4 text-purple-400"></i> Technical & Tools
+        </h3>
+        <div class="flex flex-wrap gap-2">
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">C Language</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Canva Design</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">PowerPoint</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Image/Video Tools</span>
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Data Science Foundations</span>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <!-- Technical Skills -->
-        <div class="glass-card rounded-2xl p-6 space-y-4">
-          <div class="flex items-center gap-2 text-sm font-semibold text-neutral-200">
-            <i data-lucide="code" class="w-4 h-4 text-purple-400"></i> Technical Skills
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">C Language</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Canva</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">MS PowerPoint</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Image Tools</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">AI Video Editing</span>
-          </div>
-        </div>
-
-        <!-- Curriculum & Engineering -->
-        <div class="glass-card rounded-2xl p-6 space-y-4">
-          <div class="flex items-center gap-2 text-sm font-semibold text-neutral-200">
-            <i data-lucide="book-open" class="w-4 h-4 text-cyan-400"></i> Curriculum
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Chemical Engg Principles</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs font-mono">Data Science Foundations</span>
-          </div>
-        </div>
-
-        <!-- Interests & Passions -->
-        <div class="glass-card rounded-2xl p-6 space-y-4">
-          <div class="flex items-center gap-2 text-sm font-semibold text-neutral-200">
-            <i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i> Creative & Sports
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Cricket</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Cricket Game Dev</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Singing</span>
-            <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-xs">Shayari Writing</span>
-          </div>
-        </div>
+      <!-- Experience & Chapter -->
+      <div class="glass-card rounded-2xl p-6 space-y-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i data-lucide="users" class="w-4 h-4 text-cyan-400"></i> Leadership & Service
+        </h3>
+        <ul class="text-xs text-neutral-300 space-y-2">
+          <li>• <strong>IIChE Student Chapter:</strong> Departmental Representative & Member (Apr 2026 – Ongoing)</li>
+          <li>• <strong>Kutumb NGO:</strong> Social Intern focused on child development (May 2026 – Jun 2026)</li>
+          <li>• <strong>NSS MMMUT:</strong> Active Volunteer in community welfare drives</li>
+        </ul>
       </div>
     </section>
 
-    <!-- Experience & Positions of Responsibility -->
-    <section id="experience" class="space-y-6">
-      <div class="text-center space-y-1">
-        <h2 class="text-xs uppercase font-bold tracking-widest text-cyan-400">Experience & Service</h2>
-        <p class="text-2xl font-bold">Leadership & Volunteering</p>
-      </div>
-
-      <div class="max-w-2xl mx-auto border-l-2 border-white/10 pl-6 space-y-8 relative">
-        <!-- IIChE -->
-        <div class="relative group">
-          <span class="absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full bg-purple-500 border-4 border-[#0a0d14]"></span>
-          <p class="text-xs font-mono text-purple-400">April 2026 — Ongoing</p>
-          <h3 class="text-base font-bold text-white">Departmental Representative & Member</h3>
-          <p class="text-xs text-neutral-400">Indian Institute of Chemical Engineers (IIChE) Student Chapter</p>
-          <p class="text-sm text-neutral-300 mt-1">Representing student interests, organizing technical sessions, and coordinating departmental activities.</p>
-        </div>
-
-        <!-- Kutumb NGO -->
-        <div class="relative group">
-          <span class="absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full bg-cyan-400 border-4 border-[#0a0d14]"></span>
-          <p class="text-xs font-mono text-cyan-400">May 2026 — June 2026</p>
-          <h3 class="text-base font-bold text-white">Social Intern</h3>
-          <p class="text-xs text-neutral-400">Kutumb NGO</p>
-          <p class="text-sm text-neutral-300 mt-1">Focused on child development programs and active community welfare initiatives during the internship.</p>
-        </div>
-
-        <!-- NSS -->
-        <div class="relative group">
-          <span class="absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full bg-indigo-400 border-4 border-[#0a0d14]"></span>
-          <p class="text-xs font-mono text-indigo-400">October 2025 — March 2026</p>
-          <h3 class="text-base font-bold text-white">Volunteer</h3>
-          <p class="text-xs text-neutral-400">National Service Scheme (NSS), MMMUT Gorakhpur</p>
-          <p class="text-sm text-neutral-300 mt-1">Participated in campus social initiatives, donation drives, and environmental service campaigns.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Extracurricular Workshops -->
-    <section class="glass-card rounded-2xl p-6 max-w-3xl mx-auto space-y-4">
-      <div class="flex items-center gap-2 text-sm font-semibold text-white">
-        <i data-lucide="calendar" class="w-4 h-4 text-purple-400"></i> Extracurriculars & Workshops
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-neutral-300">
-        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
-          <p class="font-semibold text-white">Workshops: "Resume X" & "QUAZAR"</p>
-          <p class="text-neutral-400 mt-0.5">Attended campus career & technical growth programs (Oct 2025).</p>
-        </div>
-        <div class="p-3 rounded-xl bg-white/5 border border-white/5">
-          <p class="font-semibold text-white">Budget Quest 2026</p>
-          <p class="text-neutral-400 mt-0.5">Registered and participated in the national quiz competition.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="glass-card rounded-3xl p-8 sm:p-12 text-center max-w-2xl mx-auto space-y-8">
-      <div class="w-12 h-12 rounded-full bg-purple-600/20 text-purple-400 flex items-center justify-center mx-auto">
-        <i data-lucide="mail" class="w-6 h-6"></i>
-      </div>
-
-      <div class="space-y-2">
-        <h2 class="text-3xl font-extrabold text-white">Let's Connect</h2>
-        <p class="text-neutral-400 text-sm">Open to technology discussions, project collaborations, and internships.</p>
-      </div>
-
-      <!-- Quick Contact Actions -->
+    <!-- Contact & Socials -->
+    <section class="glass-card rounded-3xl p-8 text-center max-w-2xl mx-auto space-y-5">
+      <h2 class="text-2xl font-bold text-white">Let's Connect</h2>
+      <p class="text-xs text-neutral-400">Open for technology discussions, hardware projects, and engineering opportunities.</p>
+      
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-        <button id="copyBtn" onclick="copyEmail()" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-semibold flex items-center gap-2 transition-all">
-          <i data-lucide="copy" class="w-4 h-4"></i> <span id="copyText">Copy: amitkrpatel000@gmail.com</span>
-        </button>
-
-        <a href="tel:+919451470020" class="px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-xs font-semibold flex items-center gap-2 transition-all text-neutral-200">
-          <i data-lucide="phone" class="w-4 h-4"></i> +91 9451470020
+        <a href="mailto:amitkrpatel000@gmail.com" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-md shadow-purple-900/30">
+          <i data-lucide="mail" class="w-4 h-4"></i> amitkrpatel000@gmail.com
         </a>
-
-        <a href="mailto:amitkrpatel000@gmail.com" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-lg shadow-purple-600/30">
-          <i data-lucide="send" class="w-4 h-4"></i> Send Mail
+        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl glass-card hover:bg-white/10 text-white text-xs font-semibold flex items-center gap-2 transition-all">
+          <i data-lucide="github" class="w-4 h-4"></i> GitHub
         </a>
-      </div>
-
-      <!-- Social Media Profiles -->
-      <div class="pt-6 border-t border-white/5 space-y-4">
-        <p class="text-xs uppercase tracking-widest text-neutral-400 font-semibold">Social Profiles & Networks</p>
-        <div class="flex flex-wrap items-center justify-center gap-3">
-          <!-- LinkedIn -->
-          <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-[#0077b5]/15 border border-white/10 hover:border-[#0077b5]/40 text-neutral-200 hover:text-[#0077b5] text-xs font-semibold flex items-center gap-2 transition-all group">
-            <i data-lucide="linkedin" class="w-4 h-4 text-cyan-400 group-hover:text-[#0077b5] transition-colors"></i> LinkedIn
-          </a>
-          <!-- GitHub -->
-          <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 text-neutral-200 hover:text-white text-xs font-semibold flex items-center gap-2 transition-all">
-            <i data-lucide="github" class="w-4 h-4"></i> GitHub
-          </a>
-          <!-- WhatsApp -->
-          <a href="https://wa.me/919451470020" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-emerald-500/15 border border-white/10 hover:border-emerald-500/40 text-neutral-200 hover:text-emerald-400 text-xs font-semibold flex items-center gap-2 transition-all group">
-            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i> WhatsApp
-          </a>
-          <!-- Instagram -->
-          <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" id="social-instagram" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-[#e1306c]/15 border border-white/10 hover:border-[#e1306c]/40 text-neutral-200 hover:text-[#e1306c] text-xs font-semibold flex items-center gap-2 transition-all group">
-            <i data-lucide="instagram" class="w-4 h-4 text-pink-400 group-hover:text-[#e1306c] transition-colors"></i> Instagram
-          </a>
-          <!-- Twitter / X -->
-          <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" id="social-twitter" class="px-4 py-2.5 rounded-xl bg-white/5 hover:bg-sky-500/15 border border-white/10 hover:border-sky-500/40 text-neutral-200 hover:text-sky-400 text-xs font-semibold flex items-center gap-2 transition-all group">
-            <i data-lucide="twitter" class="w-4 h-4 text-sky-400"></i> Twitter / X
-          </a>
-        </div>
+        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl glass-card hover:bg-white/10 text-white text-xs font-semibold flex items-center gap-2 transition-all">
+          <i data-lucide="linkedin" class="w-4 h-4"></i> LinkedIn
+        </a>
+        <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl glass-card hover:bg-white/10 text-pink-400 hover:text-pink-300 text-xs font-semibold flex items-center gap-2 transition-all">
+          <i data-lucide="instagram" class="w-4 h-4"></i> Instagram
+        </a>
+        <a href="https://wa.me/919451470020" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl glass-card hover:bg-white/10 text-emerald-400 hover:text-emerald-300 text-xs font-semibold flex items-center gap-2 transition-all">
+          <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp
+        </a>
       </div>
     </section>
 
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-white/5 py-8 px-5 text-neutral-500">
-    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-      <p>&copy; 2026 Amit Kumar Patel &bull; Built with Tailwind CSS</p>
-
-      <!-- Footer Social Icons -->
-      <div class="flex items-center gap-4 text-neutral-400">
-        <a href="https://github.com/amitkrpatel000-hue" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" title="GitHub">
-          <i data-lucide="github" class="w-4 h-4"></i>
-        </a>
-        <a href="https://www.linkedin.com/in/amit-kr-patel-b84963378" target="_blank" rel="noopener noreferrer" class="hover:text-cyan-400 transition-colors" title="LinkedIn">
-          <i data-lucide="linkedin" class="w-4 h-4"></i>
-        </a>
-        <a href="https://www.instagram.com/amit_kumar_patel_0020" target="_blank" rel="noopener noreferrer" class="hover:text-pink-400 transition-colors" title="Instagram">
-          <i data-lucide="instagram" class="w-4 h-4"></i>
-        </a>
-        <a href="https://wa.me/919451470020" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-400 transition-colors" title="WhatsApp">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-        </a>
-        <a href="mailto:amitkrpatel000@gmail.com" class="hover:text-purple-400 transition-colors" title="Email">
-          <i data-lucide="mail" class="w-4 h-4"></i>
-        </a>
-      </div>
-
-      <a href="#hero" class="hover:text-white transition-colors flex items-center gap-1 group">
-        Back to top <i data-lucide="arrow-up" class="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform"></i>
-      </a>
-    </div>
+  <footer class="border-t border-white/5 py-8 text-center text-xs text-neutral-500">
+    <p>© 2026 Amit Kumar Patel • B.Tech Chemical Engineering (MMMUT)</p>
   </footer>
 
+  <!-- Scripts -->
   <script>
-    // Initialize Lucide icons
+    // Initialize Icons
     lucide.createIcons();
 
-    // Mobile Navigation Drawer Toggle with Open/Close Icon Switching
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const iconOpen = document.getElementById('menu-icon-open');
-    const iconClose = document.getElementById('menu-icon-close');
+    // Video Audio Toggle
+    const video = document.getElementById('introVideo');
+    const soundBtn = document.getElementById('soundToggleBtn');
+    const volumeIcon = document.getElementById('volumeIcon');
+    const volumeText = document.getElementById('volumeText');
 
-    function setMobileMenu(isOpen) {
-      if (!mobileMenu) return;
-      if (isOpen) {
-        mobileMenu.classList.remove('hidden');
-        if (iconOpen) iconOpen.classList.add('hidden');
-        if (iconClose) iconClose.classList.remove('hidden');
-      } else {
-        mobileMenu.classList.add('hidden');
-        if (iconOpen) iconOpen.classList.remove('hidden');
-        if (iconClose) iconClose.classList.add('hidden');
-      }
-    }
-
-    if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const willOpen = mobileMenu.classList.contains('hidden');
-        setMobileMenu(willOpen);
-      });
-      // Close mobile menu when clicking outside or on a link
-      document.addEventListener('click', (e) => {
-        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-          setMobileMenu(false);
-        }
-      });
-      document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-          setMobileMenu(false);
-        });
-      });
-    }
-
-    // Active Navigation Highlighter on Scroll
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    window.addEventListener('scroll', () => {
-      let current = '';
-      const scrollPosition = window.scrollY + 140;
-      sections.forEach(section => {
-        if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
-          current = section.getAttribute('id');
-        }
-      });
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
-          link.classList.remove('text-neutral-300');
-        } else {
-          link.classList.remove('active');
-          link.classList.add('text-neutral-300');
-        }
-      });
-    }, { passive: true });
-
-    // Cursor Spotlight Glow (optimized with requestAnimationFrame)
-    const glow = document.getElementById('cursor-glow');
-    if (glow && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      let rafId = null;
-      window.addEventListener('mousemove', (e) => {
-        if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => {
-          glow.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139, 92, 246, 0.12), transparent 80%)`;
-        });
-      }, { passive: true });
-    }
-
-    // Typewriter Effect (robust substring loop without DOM pollution + tab visibility pause)
-    const words = ["C & Python Programming", "Assistive Tech Architecture", "Data Science Foundations", "Creative UI/UX Design"];
-    const typewriterEl = document.getElementById('typewriter');
-    if (typewriterEl) {
-      let wordIdx = 0;
-      let charIdx = 0;
-      let isDeleting = false;
-      let typewriterTimeout = null;
-
-      function typeLoop() {
-        const currentWord = words[wordIdx];
-        if (isDeleting) {
-          charIdx--;
-          typewriterEl.textContent = currentWord.substring(0, charIdx);
-        } else {
-          charIdx++;
-          typewriterEl.textContent = currentWord.substring(0, charIdx);
-        }
-
-        let typeSpeed = isDeleting ? 35 : 75;
-
-        if (!isDeleting && charIdx === currentWord.length) {
-          typeSpeed = 1600; // Pause at end of word
-          isDeleting = true;
-        } else if (isDeleting && charIdx === 0) {
-          isDeleting = false;
-          wordIdx = (wordIdx + 1) % words.length;
-          typeSpeed = 450; // Pause before typing next word
-        }
-
-        typewriterTimeout = setTimeout(typeLoop, typeSpeed);
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          clearTimeout(typewriterTimeout);
-        } else {
-          typewriterTimeout = setTimeout(typeLoop, 300);
-        }
-      });
-
-      typeLoop();
-    }
-
-    // Fullscreen Hero Video Audio & Playback Handlers
-    function toggleHeroAudio(e) {
-      if (e) e.stopPropagation();
-      const video = document.getElementById('heroIntroVideo');
-      const icon = document.getElementById('heroVolumeIcon');
-      const text = document.getElementById('heroVolumeText');
-      const btn = document.getElementById('heroAudioBtn');
+    function toggleSound() {
       if (!video) return;
-
-      video.muted = !video.muted;
       if (video.muted) {
-        if (icon) icon.setAttribute('data-lucide', 'volume-x');
-        if (text) text.textContent = 'Unmute';
-        if (btn) btn.classList.remove('border-cyan-400', 'text-cyan-300');
+        video.muted = false;
+        volumeIcon.setAttribute('data-lucide', 'volume-2');
+        volumeText.innerText = "Mute Audio";
+        soundBtn.classList.add('border-cyan-400', 'text-cyan-300');
       } else {
-        if (icon) icon.setAttribute('data-lucide', 'volume-2');
-        if (text) text.textContent = 'Mute';
-        if (btn) btn.classList.add('border-cyan-400', 'text-cyan-300');
+        video.muted = true;
+        volumeIcon.setAttribute('data-lucide', 'volume-x');
+        volumeText.innerText = "Click to Unmute";
+        soundBtn.classList.remove('border-cyan-400', 'text-cyan-300');
       }
-      if (window.lucide) {
-        lucide.createIcons();
-      }
+      lucide.createIcons();
     }
 
-    function toggleHeroVideoPlay(e) {
-      const video = document.getElementById('heroIntroVideo');
+    function togglePlayPause() {
       if (!video) return;
-      if (video.paused) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
+      if (video.paused) video.play().catch(() => {});
+      else video.pause();
     }
 
     // Initialize 3D Tilt for Photo
     if (typeof VanillaTilt !== 'undefined') {
       VanillaTilt.init(document.querySelector(".tilt-card"), {
-        max: 14,
+        max: 15,
         speed: 400,
         glare: true,
         "max-glare": 0.35,
         scale: 1.02,
         perspective: 1000
       });
-    }
-
-    // Team Trinetra Interactive Mode Switcher
-    function setTrinetraMode(mode) {
-      const modes = {
-        detection: {
-          btnId: 'mode-btn-detection',
-          cardId: 'card-detection',
-          btnClass: 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30',
-          borderClass: 'border-cyan-400/40',
-          status: 'Scanning 180° front elevation: detecting ground-level drop-offs, knee height hurdles, and head-level obstacles.',
-          blip1Text: '0.8m Alert',
-          blip2Text: 'Depth Sensor',
-          caption: 'Obstacle Detection: Multi-zone spatial ultrasonic & AI vision active'
-        },
-        processing: {
-          btnId: 'mode-btn-processing',
-          cardId: 'card-processing',
-          btnClass: 'bg-purple-600 text-white shadow-md shadow-purple-600/30',
-          borderClass: 'border-purple-400/40',
-          status: 'AI Edge Processing: Microcontroller sensor fusion with low latency (<15ms) and power management.',
-          blip1Text: 'Edge Fusion',
-          blip2Text: '<15ms Latency',
-          caption: 'Edge Processing: Real-time sensor fusion & filtering on MCU'
-        },
-        haptic: {
-          btnId: 'mode-btn-haptic',
-          cardId: 'card-haptic',
-          btnClass: 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30',
-          borderClass: 'border-emerald-400/40',
-          status: 'Multimodal Feedback: Directional ergonomic handle vibration and frequency-based spatial audio cues.',
-          blip1Text: '120Hz Vibe',
-          blip2Text: 'Spatial Tone',
-          caption: 'Multimodal Alerts: Haptic motor pulse & proximity audio tones'
-        }
-      };
-
-      const active = modes[mode] || modes.detection;
-
-      // Reset buttons
-      document.querySelectorAll('.trinetra-mode-btn').forEach(btn => {
-        btn.className = 'trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-white/5 hover:bg-white/10 text-neutral-300 border border-white/10';
-      });
-      const activeBtn = document.getElementById(active.btnId);
-      if (activeBtn) {
-        activeBtn.className = 'trinetra-mode-btn px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all ' + active.btnClass;
-      }
-
-      // Reset cards highlight
-      document.querySelectorAll('.trinetra-spec-card').forEach(c => {
-        c.classList.remove('border-cyan-400/40', 'border-purple-400/40', 'border-emerald-400/40', 'bg-white/[0.08]');
-        c.classList.add('border-white/5', 'bg-white/[0.04]');
-      });
-      const activeCard = document.getElementById(active.cardId);
-      if (activeCard) {
-        activeCard.classList.remove('border-white/5');
-        activeCard.classList.add(active.borderClass, 'bg-white/[0.08]');
-      }
-
-      // Update text & simulation blips
-      const statusEl = document.getElementById('trinetra-status-text');
-      if (statusEl) statusEl.textContent = active.status;
-
-      const blip1 = document.getElementById('blip-1-text');
-      if (blip1) blip1.textContent = active.blip1Text;
-
-      const blip2 = document.getElementById('blip-2-text');
-      if (blip2) blip2.textContent = active.blip2Text;
-
-      const caption = document.getElementById('radar-status-caption');
-      if (caption) {
-        caption.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${active.caption}`;
-      }
-    }
-
-    // Confetti celebration trigger
-    function triggerConfetti() {
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 70,
-          spread: 60,
-          origin: { y: 0.85 },
-          colors: ['#8b5cf6', '#06b6d4', '#ec4899']
-        });
-      }
-    }
-
-    // Robust copy email function with fallback for non-secure / file:// protocols
-    function copyEmail() {
-      const email = "amitkrpatel000@gmail.com";
-      const notifySuccess = () => {
-        triggerConfetti();
-        const copyText = document.getElementById("copyText");
-        if (copyText) {
-          copyText.innerText = "Email Copied!";
-          setTimeout(() => {
-            copyText.innerText = "Copy: amitkrpatel000@gmail.com";
-          }, 2000);
-        }
-      };
-
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(email).then(notifySuccess).catch(() => {
-          fallbackCopy(email, notifySuccess);
-        });
-      } else {
-        fallbackCopy(email, notifySuccess);
-      }
-    }
-
-    function fallbackCopy(text, callback) {
-      try {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-        callback();
-      } catch (err) {
-        console.error("Copy failed", err);
-      }
     }
   </script>
 </body>
