@@ -227,41 +227,121 @@
         </div>
       </div>
 
-      <!-- Right Side: 3D Tilt Photo Card -->
-      <div class="flex-shrink-0 relative group">
-        <!-- Ambient 3D Glow behind Photo -->
-        <div class="absolute -inset-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur-2xl opacity-30 group-hover:opacity-60 transition duration-500"></div>
-
-        <!-- 3D Card Element -->
-        <div 
-          id="tilt-card"
-          class="tilt-card relative w-72 sm:w-80 h-96 sm:h-[420px] rounded-3xl p-3 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 shadow-2xl shadow-purple-950/50 overflow-hidden cursor-pointer"
-          style="transform-style: preserve-3d;"
-        >
-          <!-- Image Container -->
-          <div class="w-full h-full rounded-2xl overflow-hidden relative">
-            <img 
-              src="amit pic.jpg" 
-              alt="Amit Kumar Patel" 
-              class="w-full h-full object-cover object-top filter contrast-[1.05]"
-            />
-            <!-- Inner Vignette Gradient -->
-            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0d14]/90 via-transparent to-transparent"></div>
+      <!-- Right Side: Hero Media Element (Photo + Video Switcher) -->
+      <div class="flex-shrink-0 flex flex-col items-center">
+        
+        <!-- Floating Pill Toggle Switcher -->
+        <div class="flex items-center justify-center mb-3">
+          <div class="inline-flex p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/40">
+            <button 
+              id="media-tab-photo"
+              type="button"
+              onclick="switchHeroMedia('photo')"
+              class="px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/40"
+            >
+              <span>📸</span> Photo (3D)
+            </button>
+            <button 
+              id="media-tab-video"
+              type="button"
+              onclick="switchHeroMedia('video')"
+              class="px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 text-neutral-400 hover:text-white"
+            >
+              <span>🎬</span> Video Intro
+            </button>
           </div>
+        </div>
 
-          <!-- 3D Pop-out Bottom Badge (translateZ creates real depth) -->
+        <!-- Fixed Aspect Ratio Media Card Container -->
+        <div class="relative group w-72 sm:w-80 h-[460px] sm:h-[500px]">
+          <!-- Ambient 3D Glow behind Media -->
+          <div id="hero-media-glow" class="absolute -inset-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur-2xl opacity-30 group-hover:opacity-60 transition duration-500 pointer-events-none"></div>
+
+          <!-- Photo View (3D Tilt Card) -->
           <div 
-            class="floating-badge absolute bottom-6 inset-x-6 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-between"
-            style="transform: translateZ(40px);"
+            id="hero-photo-view"
+            class="tilt-card relative w-full h-full rounded-3xl p-3 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 shadow-2xl shadow-purple-950/50 overflow-hidden cursor-pointer"
+            style="transform-style: preserve-3d;"
           >
-            <div>
-              <h3 class="text-sm font-bold text-white leading-tight">Amit Kumar Patel</h3>
-              <p class="text-[11px] text-cyan-400 font-mono">Chemical Engg • MMMUT '29</p>
+            <!-- Image Container -->
+            <div class="w-full h-full rounded-2xl overflow-hidden relative">
+              <img 
+                src="amit pic.jpg" 
+                alt="Amit Kumar Patel" 
+                class="w-full h-full object-cover object-top filter contrast-[1.05]"
+              />
+              <!-- Inner Vignette Gradient -->
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0a0d14]/90 via-transparent to-transparent pointer-events-none"></div>
             </div>
-            <div class="w-8 h-8 rounded-lg bg-cyan-600/20 text-cyan-300 flex items-center justify-center">
-              <i data-lucide="flask-conical" class="w-4 h-4"></i>
+
+            <!-- 3D Pop-out Bottom Badge (translateZ creates real depth) -->
+            <div 
+              class="floating-badge absolute bottom-5 inset-x-5 p-3 rounded-xl bg-black/60 backdrop-blur-md border border-white/15 flex items-center justify-between pointer-events-none"
+              style="transform: translateZ(40px);"
+            >
+              <div>
+                <h3 class="text-sm font-bold text-white leading-tight">Amit Kumar Patel</h3>
+                <p class="text-[11px] text-cyan-400 font-mono">B.Tech Chemical Engg • MMMUT</p>
+              </div>
+              <div class="w-8 h-8 rounded-lg bg-cyan-600/20 text-cyan-300 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="flask-conical" class="w-4 h-4"></i>
+              </div>
             </div>
           </div>
+
+          <!-- Video View -->
+          <div 
+            id="hero-video-view"
+            class="hidden relative w-full h-full rounded-3xl p-3 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 shadow-2xl shadow-cyan-950/50 overflow-hidden"
+          >
+            <!-- Video Container -->
+            <div class="w-full h-full rounded-2xl overflow-hidden relative bg-black/90">
+              <video 
+                id="hero-intro-video"
+                src="intro.mp4"
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="auto"
+                class="w-full h-full object-cover"
+              ></video>
+
+              <!-- Top-left "Quick Intro" pulsing green status badge -->
+              <div class="absolute top-3 left-3 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-emerald-500/40 text-emerald-300 text-xs font-semibold shadow-lg">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Quick Intro</span>
+              </div>
+
+              <!-- Top-right Floating Mute/Unmute Sound Button -->
+              <button 
+                id="video-sound-btn"
+                type="button"
+                onclick="toggleVideoSound(event)"
+                class="absolute top-3 right-3 z-20 w-9 h-9 rounded-full bg-black/70 hover:bg-black/90 backdrop-blur-md border border-white/20 text-white flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-lg"
+                title="Toggle Mute / Unmute"
+                aria-label="Toggle Sound"
+              >
+                <i data-lucide="volume-x" id="sound-icon-muted" class="w-4 h-4 text-neutral-300"></i>
+                <i data-lucide="volume-2" id="sound-icon-unmuted" class="w-4 h-4 text-cyan-400 hidden"></i>
+              </button>
+
+              <!-- Inner Vignette Gradient -->
+              <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#0a0d14]/90 to-transparent pointer-events-none"></div>
+
+              <!-- Video Bottom Floating Depth Badge -->
+              <div class="absolute bottom-5 inset-x-5 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 flex items-center justify-between pointer-events-none">
+                <div>
+                  <h3 class="text-sm font-bold text-white leading-tight">Amit Kumar Patel</h3>
+                  <p class="text-[11px] text-cyan-400 font-mono">B.Tech Chemical Engg • MMMUT</p>
+                </div>
+                <div class="w-8 h-8 rounded-lg bg-cyan-600/20 text-cyan-300 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="video" class="w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -851,6 +931,74 @@
         scale: 1.03,         // Card pops out slightly on hover
         perspective: 1000    // 3D perspective view
       });
+    }
+
+    // Hero Media Switcher (Photo 3D / Video Intro)
+    function switchHeroMedia(type) {
+      const photoView = document.getElementById('hero-photo-view');
+      const videoView = document.getElementById('hero-video-view');
+      const tabPhoto = document.getElementById('media-tab-photo');
+      const tabVideo = document.getElementById('media-tab-video');
+      const videoEl = document.getElementById('hero-intro-video');
+      const mediaGlow = document.getElementById('hero-media-glow');
+
+      const photoActiveClass = 'px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/40';
+      const videoActiveClass = 'px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 bg-gradient-to-r from-indigo-600 to-cyan-600 text-white shadow-md shadow-cyan-900/40';
+      const inactiveClass = 'px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-300 text-neutral-400 hover:text-white';
+
+      if (type === 'photo') {
+        if (videoView) videoView.classList.add('hidden');
+        if (photoView) photoView.classList.remove('hidden');
+
+        // Automatically pause video to conserve memory
+        if (videoEl && !videoEl.paused) {
+          videoEl.pause();
+        }
+
+        if (tabPhoto) tabPhoto.className = photoActiveClass;
+        if (tabVideo) tabVideo.className = inactiveClass;
+        if (mediaGlow) {
+          mediaGlow.className = 'absolute -inset-2 bg-gradient-to-r from-purple-600 to-cyan-500 rounded-3xl blur-2xl opacity-30 group-hover:opacity-60 transition duration-500 pointer-events-none';
+        }
+      } else if (type === 'video') {
+        if (photoView) photoView.classList.add('hidden');
+        if (videoView) videoView.classList.remove('hidden');
+
+        // Play video when switched to video tab
+        if (videoEl) {
+          videoEl.play().catch(() => {});
+        }
+
+        if (tabVideo) tabVideo.className = videoActiveClass;
+        if (tabPhoto) tabPhoto.className = inactiveClass;
+        if (mediaGlow) {
+          mediaGlow.className = 'absolute -inset-2 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-3xl blur-2xl opacity-40 group-hover:opacity-70 transition duration-500 pointer-events-none';
+        }
+      }
+
+      // Re-initialize Lucide icons for new view
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // Toggle Intro Video Mute / Unmute
+    function toggleVideoSound(e) {
+      if (e) e.stopPropagation();
+      const videoEl = document.getElementById('hero-intro-video');
+      const iconMuted = document.getElementById('sound-icon-muted');
+      const iconUnmuted = document.getElementById('sound-icon-unmuted');
+
+      if (!videoEl) return;
+      videoEl.muted = !videoEl.muted;
+
+      if (videoEl.muted) {
+        if (iconMuted) iconMuted.classList.remove('hidden');
+        if (iconUnmuted) iconUnmuted.classList.add('hidden');
+      } else {
+        if (iconMuted) iconMuted.classList.add('hidden');
+        if (iconUnmuted) iconUnmuted.classList.remove('hidden');
+      }
     }
 
     // Team Trinetra Interactive Mode Switcher
