@@ -898,92 +898,75 @@
       typeLoop();
     }
 
-    // 3D Card Tilt Initialization
-    const tiltCardEl = document.querySelector(".tilt-card");
-    if (tiltCardEl && typeof VanillaTilt !== 'undefined') {
-      VanillaTilt.init(tiltCardEl, {
-        max: 15,            // Max tilt angle (degrees)
-        speed: 400,          // Speed of transition
-        glare: true,         // Adds a realistic light-glare reflection
-        "max-glare": 0.35,   // Opacity of glare
-        scale: 1.03,         // Card pops out slightly on hover
-        perspective: 1000    // 3D perspective view
-      });
-    }
-
-    // Dual-Mode Media Switcher (Photo 3D / Video Intro)
-    function switchMediaTab(mode) {
+    // Tab Switching Logic (Photo <-> Video)
+    function switchMediaTab(view) {
       const photoView = document.getElementById('photoView');
       const videoView = document.getElementById('videoView');
       const tabPhotoBtn = document.getElementById('tabPhotoBtn');
       const tabVideoBtn = document.getElementById('tabVideoBtn');
-      const introVideo = document.getElementById('introVideo');
+      const video = document.getElementById('introVideo');
 
-      const photoActiveClass = 'px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/40 flex items-center gap-1.5';
-      const videoActiveClass = 'px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/40 flex items-center gap-1.5';
-      const inactiveClass = 'px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 text-neutral-400 hover:text-white flex items-center gap-1.5';
+      if (view === 'photo') {
+        // Show Photo, Hide Video
+        photoView.classList.remove('hidden');
+        videoView.classList.add('hidden');
+        video.pause();
 
-      if (mode === 'photo') {
-        if (videoView) videoView.classList.add('hidden');
-        if (photoView) photoView.classList.remove('hidden');
+        // Update Tab Styles
+        tabPhotoBtn.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-900/40 flex items-center gap-1.5";
+        tabVideoBtn.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 text-neutral-400 hover:text-white flex items-center gap-1.5";
+      } else {
+        // Show Video, Hide Photo
+        videoView.classList.remove('hidden');
+        photoView.classList.add('hidden');
+        video.play();
 
-        // Automatically pause video to conserve memory
-        if (introVideo && !introVideo.paused) {
-          introVideo.pause();
-        }
-
-        if (tabPhotoBtn) tabPhotoBtn.className = photoActiveClass;
-        if (tabVideoBtn) tabVideoBtn.className = inactiveClass;
-      } else if (mode === 'video') {
-        if (photoView) photoView.classList.add('hidden');
-        if (videoView) videoView.classList.remove('hidden');
-
-        // Play video when switched to video tab
-        if (introVideo) {
-          introVideo.play().catch(() => {});
-        }
-
-        if (tabVideoBtn) tabVideoBtn.className = videoActiveClass;
-        if (tabPhotoBtn) tabPhotoBtn.className = inactiveClass;
+        // Update Tab Styles
+        tabVideoBtn.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-md shadow-cyan-900/40 flex items-center gap-1.5";
+        tabPhotoBtn.className = "px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 text-neutral-400 hover:text-white flex items-center gap-1.5";
       }
-
       if (window.lucide) {
         lucide.createIcons();
       }
     }
 
-    // Toggle Video Audio Mute / Unmute
+    // Video Sound & Playback Handlers
+    const introVideo = document.getElementById('introVideo');
+    const soundToggleBtn = document.getElementById('soundToggleBtn');
+    const volumeIcon = document.getElementById('volumeIcon');
+
     function toggleSound(e) {
-      if (e) e.stopPropagation();
-      const introVideo = document.getElementById('introVideo');
-      const volumeIcon = document.getElementById('volumeIcon');
-
-      if (!introVideo) return;
-      introVideo.muted = !introVideo.muted;
-
-      if (volumeIcon) {
-        if (introVideo.muted) {
-          volumeIcon.setAttribute('data-lucide', 'volume-x');
-          volumeIcon.className = 'w-4 h-4 text-purple-300';
-        } else {
-          volumeIcon.setAttribute('data-lucide', 'volume-2');
-          volumeIcon.className = 'w-4 h-4 text-cyan-400';
-        }
-        if (window.lucide) {
-          lucide.createIcons();
-        }
+      e.stopPropagation();
+      if (introVideo.muted) {
+        introVideo.muted = false;
+        volumeIcon.setAttribute('data-lucide', 'volume-2');
+        soundToggleBtn.classList.add('border-cyan-400', 'text-cyan-300');
+      } else {
+        introVideo.muted = true;
+        volumeIcon.setAttribute('data-lucide', 'volume-x');
+        soundToggleBtn.classList.remove('border-cyan-400', 'text-cyan-300');
       }
+      lucide.createIcons();
     }
 
-    // Toggle Play / Pause on Video Click
     function togglePlayPause() {
-      const introVideo = document.getElementById('introVideo');
-      if (!introVideo) return;
       if (introVideo.paused) {
-        introVideo.play().catch(() => {});
+        introVideo.play();
       } else {
         introVideo.pause();
       }
+    }
+
+    // Initialize 3D Tilt for Photo
+    if (typeof VanillaTilt !== 'undefined') {
+      VanillaTilt.init(document.querySelector(".tilt-card"), {
+        max: 14,
+        speed: 400,
+        glare: true,
+        "max-glare": 0.35,
+        scale: 1.02,
+        perspective: 1000
+      });
     }
 
     // Team Trinetra Interactive Mode Switcher
